@@ -61,23 +61,42 @@ class ReposItem extends StatelessWidget {
                 new Container(
                     child: new Row(
                   children: <Widget>[
-                    new LikeButton(
-                      width: 30.0,
-                      duration: Duration(milliseconds: 500),
+                    new Container(
+                      margin: EdgeInsets.only(right: 10),
+                      padding: EdgeInsets.only(
+                          left: 10, top: 1, right: 10, bottom: 1),
+                      decoration: new BoxDecoration(
+                          border: new Border.all(color: Colors.green, width: 1),
+                          borderRadius: new BorderRadius.vertical(
+                              top: Radius.elliptical(3, 3),
+                              bottom: Radius.elliptical(3, 3))),
+                      child: new Text('项目',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0,
+                              fontSize: 9,
+                              color: Colors.green)),
                     ),
                     Text(
                       model.author,
-                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                    new Expanded(flex: 1, child: SizedBox()),
                     new Container(
-                      margin: EdgeInsets.only(right: 5),
+                      margin: EdgeInsets.only(left: 10),
                       child: new Text(
                           Utils.getTimeLine(context, model.publishTime),
                           style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
                               fontStyle: FontStyle.italic)),
+                    ),
+                    new Expanded(flex: 1, child: SizedBox()),
+                    new Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: new LikeButton(
+                        width: 30.0,
+                        duration: Duration(milliseconds: 500),
+                      ),
                     ),
                   ],
                 ))

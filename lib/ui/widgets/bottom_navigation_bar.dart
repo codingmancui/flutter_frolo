@@ -42,8 +42,8 @@ class _BottomNavigationBarState extends State<BottomNavBar> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('主页')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.description_sharp), title: Text('推荐')),
-          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('项目')),
+              icon: Icon(Icons.description_sharp), title: Text('项目')),
+          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('推荐')),
           BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('我')),
         ],
         type: BottomNavigationBarType.fixed,
