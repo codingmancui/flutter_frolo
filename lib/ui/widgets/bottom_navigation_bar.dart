@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frolo/ui/page/home_page.dart';
 import 'package:frolo/ui/page/me_page.dart';
-import 'package:frolo/ui/page/rec_hot_page.dart';
 import 'package:frolo/ui/page/repos_page.dart';
+import 'package:frolo/ui/page/project_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _BottomNavigationBarState extends State<BottomNavBar> {
   void initState() {
     _bottomNavPages
       ..add(HomePage())
-      ..add(RecHotPage())
+      ..add(ProjectPage())
       ..add(ReposPage())
       ..add(MePage());
     super.initState();

@@ -1,7 +1,6 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:frolo/ui/widgets/bottom_navigation_bar.dart';
 import 'package:frolo/utils/object_util.dart';
@@ -62,7 +61,7 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Utils.createMaterialColor(Colors.green),
+        primarySwatch: Utils.createMaterialColor(Color(0xFF8BC34A)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: BottomNavBar(),

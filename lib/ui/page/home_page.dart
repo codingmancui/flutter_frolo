@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
     return new AspectRatio(
         aspectRatio: 16.0 / 9.0,
         child: Swiper(
-          indicatorAlignment: AlignmentDirectional.topEnd,
+          indicatorAlignment: AlignmentDirectional.bottomEnd,
           circular: true,
           interval: const Duration(seconds: 5),
           indicator: NumberSwiperIndicator(),

@@ -4,8 +4,6 @@ import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
 import 'package:frolo/event/event.dart';
-import 'package:frolo/utils/object_util.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainBloc implements BlocBase {
@@ -96,5 +94,6 @@ class MainBloc implements BlocBase {
     _banner.close();
     _recRepos.close();
     _recWxArticle.close();
+    _homeEvent.close();
   }
 }

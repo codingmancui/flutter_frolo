@@ -216,3 +216,39 @@ class ComData {
       : size = json['size'],
         datas = json['datas'];
 }
+
+class TreeModel {
+  String name;
+  int id;
+  List<TreeModel> children;
+  String tagIndex;
+
+  TreeModel.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        id = json['id'],
+        children = (json['children'] as List)
+            ?.map((e) => e == null
+            ? null
+            : new TreeModel.fromJson(e as Map<String, dynamic>))
+            ?.toList();
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'id': id,
+    'children': children,
+  };
+
+  @override
+  String toString() {
+    StringBuffer sb = new StringBuffer('{');
+    sb.write("\"name\":\"$name\"");
+    sb.write(",\"id\":$id");
+    sb.write(",\"children\":$children");
+    sb.write('}');
+    return sb.toString();
+  }
+
+  String getSuspensionTag() {
+    return tagIndex;
+  }
+}

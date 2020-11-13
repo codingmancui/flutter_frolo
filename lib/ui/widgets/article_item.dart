@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/utils/navigator_util.dart';
-import 'package:frolo/utils/ui_gaps.dart';
 import 'package:frolo/utils/utils.dart';
 
 import 'likebtn/like_button.dart';
