@@ -211,10 +211,14 @@ class ComReq {
 class ComData {
   int size;
   List datas;
+  int pageCount;
+  int curPage;
 
   ComData.fromJson(Map<String, dynamic> json)
       : size = json['size'],
-        datas = json['datas'];
+        datas = json['datas'],
+        pageCount = json['pageCount'],
+        curPage = json['curPage'];
 }
 
 class TreeModel {
@@ -228,15 +232,15 @@ class TreeModel {
         id = json['id'],
         children = (json['children'] as List)
             ?.map((e) => e == null
-            ? null
-            : new TreeModel.fromJson(e as Map<String, dynamic>))
+                ? null
+                : new TreeModel.fromJson(e as Map<String, dynamic>))
             ?.toList();
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'id': id,
-    'children': children,
-  };
+        'name': name,
+        'id': id,
+        'children': children,
+      };
 
   @override
   String toString() {
@@ -250,5 +254,17 @@ class TreeModel {
 
   String getSuspensionTag() {
     return tagIndex;
+  }
+}
+
+class ProjectData {
+  int pageCount;
+  int curPage;
+  List<ReposModel> list;
+
+  ProjectData.fromData(List<ReposModel> list, int pageCount, int curPage) {
+    this.list = list;
+    this.pageCount = pageCount;
+    this.curPage = curPage;
   }
 }

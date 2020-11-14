@@ -63,9 +63,9 @@ class MainBloc implements BlocBase {
   Future getBanner(String labelId) {
     return wanRepository.getBanner().then((list) {
       _bannerSink.add(UnmodifiableListView<BannerModel>(list));
-      homeEventSink.add(new StatusEvent(labelId, 0));
+      homeEventSink.add(new StatusEvent(status: 0));
     }).catchError((_) {
-      homeEventSink.add(new StatusEvent(labelId, -1));
+      homeEventSink.add(new StatusEvent(status: -1));
     });
   }
 

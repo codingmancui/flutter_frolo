@@ -3,10 +3,17 @@ import 'dart:collection';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
+import 'package:frolo/event/event.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:rxdart/subjects.dart';
 
 class TabListBloc extends BlocBase {
+  BehaviorSubject<StatusEvent> _event = BehaviorSubject<StatusEvent>();
+
+  Sink<StatusEvent> get eventSink => _event.sink;
+
+  Stream<StatusEvent> get eventStream => _event.stream.asBroadcastStream();
+
   BehaviorSubject<List<ReposModel>> _tabList =
       BehaviorSubject<List<ReposModel>>();
 
@@ -22,12 +29,12 @@ class TabListBloc extends BlocBase {
   @override
   void dispose() {
     _tabList.close();
+    _event.close();
   }
 
   @override
-  Future getData({String labelId, int cid, int page}) {
-    return getRepos(labelId, cid, page);
-  }
+  Future getData({String labelId, int cid, int page}) =>
+      getRepos(labelId, cid, page);
 
   @override
   Future onLoadMore({String labelId, int cid}) {
@@ -46,25 +53,27 @@ class TabListBloc extends BlocBase {
     ComReq _comReq = new ComReq(cid);
     return wanRepository
         .getProjectList(page: page, data: _comReq.toJson())
-        .then((list) {
+        .then((data) {
       if (tabList == null) tabList = new List();
       if (page == 1) {
         tabList.clear();
       }
-      tabList.addAll(list);
+      tabList.addAll(data.list);
       LogUtil.e(
-          'TabListWidget is getRepos size:' +
-              tabList.length.toString() +
-              ' cid :' +
-              cid.toString(),
+          'TabListWidget is getRepos curPage: ${data.curPage}   pageCount: ${data.pageCount}',
           tag: 'TabListBloc');
       _tabListSink.add(UnmodifiableListView<ReposModel>(tabList));
-      // _comListEventSink.add(new StatusEvent(labelId,
-      //     ObjectUtil.isEmpty(list) ? RefreshStatus.noMore : RefreshStatus.idle,
-      //     cid: cid));
+      if (page == 1) {
+        eventSink.add(
+            new StatusEvent(noMore: data.curPage == data.pageCount, status: 0));
+      } else {
+        data.curPage == data.pageCount
+            ? eventSink.add(new StatusEvent(status: 2))
+            : eventSink.add(new StatusEvent(status: 1));
+      }
     }).catchError((_) {
       _tabListPage--;
-      // _comListEventSink.add(new StatusEvent(labelId, RefreshStatus.failed));
+      eventSink.add(new StatusEvent(status: -1));
     });
   }
 }

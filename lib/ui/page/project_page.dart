@@ -6,27 +6,25 @@ import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/project_item_list.dart';
 import 'package:frolo/ui/widgets/square_circle.dart';
+import 'package:frolo/utils/ui_gaps.dart';
 import 'package:frolo/utils/utils.dart';
 
 class ProjectPage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return new BlocProvider(child: _TabBarWidget(), bloc: TabBloc());
-  }
+  Widget build(BuildContext context) =>
+      new BlocProvider(child: _TabBarWidget(), bloc: TabBloc());
 }
 
 class _TabBarWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _TabBarWidgetState();
-  }
+  State<StatefulWidget> createState() => _TabBarWidgetState();
 }
 
 class _TabBarWidgetState extends State<_TabBarWidget>
     with SingleTickerProviderStateMixin {
   TabBloc _bloc;
   bool _init = true;
-  List<Widget> _children = new List();
+  List<BlocProvider<TabListBloc>> _children = new List();
 
   @override
   void initState() {
@@ -41,6 +39,9 @@ class _TabBarWidgetState extends State<_TabBarWidget>
   @override
   void dispose() {
     super.dispose();
+    for (int i = 0, length = _children.length; i < length; i++) {
+      _children[i].bloc.dispose();
+    }
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
-import 'package:frolo/utils/log_util.dart';
 import 'package:rxdart/rxdart.dart';
 import 'bloc_provider.dart';
 
@@ -32,8 +31,8 @@ class TabBloc implements BlocBase {
 
   Future getProjectTree() {
     return wanRepository.getProjectTree().then((list) {
-      if (list.length > 10) {
-        list = list.sublist(0, 10);
+      if (list.length > 6) {
+        list = list.sublist(0, 6);
       }
       _tabTreeSink.add(UnmodifiableListView<TreeModel>(list));
     });

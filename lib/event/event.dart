@@ -3,11 +3,11 @@ import 'package:frolo/blocs/application_bloc.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 
 class StatusEvent {
-  String labelId;
+  bool noMore;
   int status;
   int cid;
 
-  StatusEvent(this.labelId, this.status, {this.cid});
+  StatusEvent({this.noMore, this.status, this.cid});
 }
 
 class ComEvent {

@@ -73,7 +73,7 @@ class WanRepository {
     return treeList;
   }
 
-  Future<List<ReposModel>> getProjectList({int page: 1, data}) async {
+  Future<ProjectData> getProjectList({int page: 1, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(Method.get,
             WanAndroidApi.getPath(path: WanAndroidApi.PROJECT_LIST, page: page),
@@ -82,12 +82,13 @@ class WanRepository {
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
+    ComData comData;
     if (baseResp.data != null) {
-      ComData comData = ComData.fromJson(baseResp.data);
+      comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
         return ReposModel.fromJson(value);
       }).toList();
     }
-    return list;
+    return ProjectData.fromData(list, comData.pageCount, comData.curPage);
   }
 }
