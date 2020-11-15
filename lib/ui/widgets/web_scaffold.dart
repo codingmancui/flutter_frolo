@@ -25,18 +25,16 @@ class WebScaffoldState extends State<WebScaffold> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        leading: BackButton(color: Colors.white),
         title: new Text(
           widget.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
+          style: new TextStyle(
+            color: Colors.white,
+          ),
         ),
         centerTitle: true,
-        actions: <Widget>[
-          LikeButton(
-            width: 36.0,
-            duration: Duration(milliseconds: 500),
-          ),
-        ],
       ),
       body: new WebView(
         onWebViewCreated: (WebViewController webViewController) {},

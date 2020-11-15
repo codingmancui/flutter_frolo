@@ -6,6 +6,7 @@ import 'package:frolo/blocs/main_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/article_item.dart';
 import 'package:frolo/ui/widgets/header_item.dart';
+import 'package:frolo/ui/widgets/home_top_item.dart';
 import 'package:frolo/ui/widgets/number_swiper_indicator.dart';
 import 'package:frolo/ui/widgets/pulse.dart';
 import 'package:frolo/ui/widgets/repos_item.dart';
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     if (_isHomeInit) {
       _isHomeInit = false;
       _bloc.getHomeData('home');
+      _bloc.getAllData();
     }
     _bloc.homeEventStream.listen((event) {
       _refreshController.refreshCompleted();
@@ -67,42 +69,78 @@ class _HomePageState extends State<HomePage> {
                       return Text("报错啦");
                     } else {
                       return SpinKitSquareCircle(
-                          size: 60,
+                          size: 50,
                           color: Colors.lime,
                           duration: Duration(milliseconds: 500));
                     }
                   }),
             ),
-            new SmartRefresher(
+            buildListView()
+          ],
+        ));
+  }
+
+  Widget buildListView() {
+    return StreamBuilder(
+        stream: _bloc.allStream,
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          return new SmartRefresher(
               enablePullDown: true,
               onRefresh: _onRefresh,
               controller: _refreshController,
               header: WaterDropHeaderV2(),
-              child: new ListView(
-                children: <Widget>[
-                  StreamBuilder(
-                      stream: _bloc.bannerStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<BannerModel>> snapshot) {
-                        return buildBanner(context, snapshot.data);
-                      }),
-                  StreamBuilder(
-                      stream: _bloc.recReposStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<ReposModel>> snapshot) {
-                        return buildRepos(context, snapshot.data);
-                      }),
-                  StreamBuilder(
-                      stream: _bloc.recWxArticleStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<ReposModel>> snapshot) {
-                        return buildWxArticle(context, snapshot.data);
-                      }),
-                ],
-              ),
-            )
-          ],
-        ));
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int position) {
+                  return itemBuilder(position, snapshot);
+                },
+                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+              ));
+        });
+  }
+
+  Widget itemBuilder(int position, AsyncSnapshot<List<dynamic>> snapshot) {
+    if (snapshot.hasData) {
+      var data = snapshot.data[position];
+      if (data is List) {
+        return buildBanner(context, data as List<BannerModel>);
+      } else {
+        var item = data as ReposModel;
+        switch (item.itemType) {
+          case 0:
+            {
+              return HomeTopItem(position, item);
+            }
+          case 1:
+            {
+              return new HeaderItem(
+                leftIcon: Icons.book,
+                titleColor: Colors.red[400],
+                titleId: 'rec_repos',
+                title: '置顶文章',
+              );
+            }
+          case 2:
+            {
+              return new HeaderItem(
+                leftIcon: Icons.library_books,
+                titleColor: Colors.red[400],
+                titleId: 'rec_repos',
+                title: '热门博文',
+              );
+            }
+          default:
+            {
+              return Container(
+                height: 0,
+              );
+            }
+        }
+      }
+    } else {
+      return Container(
+        height: 0,
+      );
+    }
   }
 
   Widget buildBanner(BuildContext context, List<BannerModel> list) {

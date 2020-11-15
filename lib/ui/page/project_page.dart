@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/tab_bloc.dart';
@@ -6,7 +5,6 @@ import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/project_item_list.dart';
 import 'package:frolo/ui/widgets/square_circle.dart';
-import 'package:frolo/utils/ui_gaps.dart';
 import 'package:frolo/utils/utils.dart';
 
 class ProjectPage extends StatelessWidget {
@@ -76,7 +74,7 @@ class _TabBarWidgetState extends State<_TabBarWidget>
                     color: Utils.createMaterialColor(Color(0xFFFAFAFA)),
                     elevation: 0.0,
                     child: new Container(
-                      height: 48.0,
+                      height: 36.0,
                       width: double.infinity,
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: new TabBar(
@@ -84,12 +82,13 @@ class _TabBarWidgetState extends State<_TabBarWidget>
                         indicatorSize: TabBarIndicatorSize.label,
                         labelPadding: EdgeInsets.only(
                             top: 0, bottom: 0, left: 10, right: 10),
-                        indicatorPadding: EdgeInsets.only(bottom: 6),
+                        // indicatorPadding: EdgeInsets.only(bottom: 10),
                         labelColor: Colors.lightGreen,
                         unselectedLabelColor: Color(0xFF4c4c4c),
                         unselectedLabelStyle: TextStyle(fontSize: 15),
                         labelStyle: new TextStyle(
                           fontSize: 15,
+                            fontWeight:FontWeight.bold
                         ),
                         indicatorWeight: 2.0,
                         tabs: snapshot.data
@@ -99,6 +98,7 @@ class _TabBarWidgetState extends State<_TabBarWidget>
                       ),
                     ),
                   ),
+                  new Container(color: Colors.grey[300],height: 0.5,),
                   new Expanded(child: new TabBarView(children: _children))
                 ]));
           }),

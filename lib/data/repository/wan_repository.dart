@@ -20,6 +20,38 @@ class WanRepository {
     return bannerList;
   }
 
+  Future<List<ReposModel>> getTopList() async {
+    BaseResp<List> baseResp = await DioUtil().request<List>(
+        Method.get, WanAndroidApi.getPath(path: WanAndroidApi.TOP_LISt));
+    List<ReposModel> list;
+    if (baseResp.code != Constant.status_success) {
+      return new Future.error(baseResp.msg);
+    }
+
+    if (baseResp.data != null) {
+      list = baseResp.data.map((value) {
+        return ReposModel.fromJson(value);
+      }).toList();
+    }
+    return list;
+  }
+
+  Future<List<ReposModel>> getArticleList({int page: 0, data}) async {
+    BaseResp<Map<String,dynamic>> baseResp = await DioUtil().request<Map<String,dynamic>>(Method.get,
+        WanAndroidApi.getPath(path: WanAndroidApi.ARTICLE_LIST, page: page));
+    List<ReposModel> list;
+    if (baseResp.code != Constant.status_success) {
+      return new Future.error(baseResp.msg);
+    }
+    if (baseResp.data != null) {
+      ComData comData = ComData.fromJson(baseResp.data);
+      list = comData.datas.map((value) {
+        return ReposModel.fromJson(value);
+      }).toList();
+    }
+    return list;
+  }
+
   Future<List<ReposModel>> getRecReposList({int page: 1, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(Method.get,

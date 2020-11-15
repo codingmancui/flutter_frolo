@@ -18,6 +18,9 @@ class WanAndroidApi {
   /// 知识体系下的文章 http://www.wanandroid.com/article/list/0/json?cid=60
   static const String ARTICLE_LIST = "article/list";
 
+  /// 首页置顶 http://www.wanandroid.com/article/top/json
+  static const String TOP_LISt = "article/top";
+
   /// 获取公众号列表 http://wanandroid.com/wxarticle/chapters/json
   static const String WXARTICLE_CHAPTERS = "wxarticle/chapters";
 

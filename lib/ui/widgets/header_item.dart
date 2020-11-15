@@ -28,46 +28,27 @@ class HeaderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 56.0,
-      decoration: new BoxDecoration(
-          color: Colors.lime[50],
-          border: new Border(
-              bottom: new BorderSide(width: 0.33, color: Colors.lime[50]))),
-      child: new ListTile(
-        title: new Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            new Icon(
-              leftIcon ?? Icons.whatshot,
-              color: Colors.green,
-            ),
-            Gaps.hGap10,
-            Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.green, fontSize: 18),
-            )
-          ],
-        ),
-        trailing: new Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            new Text(
-              '更多',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            new Icon(
-              Icons.keyboard_arrow_right,
-              color: Colors.grey,
-              size: 18,
-            )
-          ],
-        ),
+      height: 36.0,
+      padding: EdgeInsets.only(left: 15),
+      alignment: Alignment.center,
+      decoration: new BoxDecoration(color: Colors.grey[200]),
+      child: new Row(
+        children: <Widget>[
+          new Icon(
+            leftIcon ?? Icons.whatshot,
+            color: Colors.red[400],
+            size: 16,
+          ),
+          Gaps.hGap5,
+          Text(
+            title,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: titleColor ?? Colors.green,
+                fontSize: 13.5,
+                fontWeight: FontWeight.bold),
+          )
+        ],
       ),
     );
   }

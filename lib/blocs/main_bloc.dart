@@ -4,6 +4,7 @@ import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
 import 'package:frolo/event/event.dart';
+import 'package:frolo/utils/log_util.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainBloc implements BlocBase {
@@ -37,6 +38,12 @@ class MainBloc implements BlocBase {
 
   Stream<List<ReposModel>> get recWxArticleStream => _recWxArticle.stream;
 
+  BehaviorSubject<List<dynamic>> _allData = BehaviorSubject<List<dynamic>>();
+
+  Sink<List<dynamic>> get allSink => _allData.sink;
+
+  Stream<List<dynamic>> get allStream => _allData.stream;
+
   int _page = 0;
 
   @override
@@ -69,6 +76,45 @@ class MainBloc implements BlocBase {
     });
   }
 
+  Future _getBanner() {
+    return wanRepository.getBanner();
+  }
+
+  /// 首页列表获取
+  Future getAllData() async {
+    Future.wait([_getBanner(), _getTop(), _getArticle()]).then((data) {
+      var dataWrapper = new List();
+      for (int i = 0; i < data.length; i++) {
+        if (i == 0) {
+          dataWrapper.add(data.first);
+        } else if (i == 1) {
+          dataWrapper.add(ReposModel.itemType(1));
+          dataWrapper.addAll(data[i]);
+        } else if (i == data.length - 1) {
+          dataWrapper.add(ReposModel.itemType(2));
+          dataWrapper.addAll(data[i]);
+        }
+      }
+      allSink.add(dataWrapper);
+      LogUtil.e(dataWrapper.length, tag: 'MainBloc');
+    }).catchError((e) {
+      LogUtil.e(e, tag: 'MainBloc');
+    });
+  }
+
+  Future<List<ReposModel>> _getTop() async {
+    return wanRepository.getTopList();
+  }
+
+  Future<List<ReposModel>> _getArticle() async {
+    return wanRepository.getArticleList();
+  }
+
+  Future<List<ReposModel>> getRecWxArticleV2() async {
+    int _id = 408;
+    return wanRepository.getWxArticleList(id: _id);
+  }
+
   Future getRecRepos(String labelId) async {
     ComReq _comReq = new ComReq(402);
     wanRepository.getRecReposList(data: _comReq.toJson()).then((list) {
@@ -95,5 +141,6 @@ class MainBloc implements BlocBase {
     _recRepos.close();
     _recWxArticle.close();
     _homeEvent.close();
+    _allData.close();
   }
 }

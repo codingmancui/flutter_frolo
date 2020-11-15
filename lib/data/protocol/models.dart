@@ -10,7 +10,8 @@ class BannerModel {
         url = json['url'],
         imagePath = json['imagePath'];
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'title': title,
         'id': id,
         'url': url,
@@ -62,40 +63,42 @@ class ReposModel {
   int userId;
   int visible;
   int zan;
+  int itemType = 0;
 
-  ReposModel(
-      {this.apkLink,
-      this.audit,
-      this.author,
-      this.canEdit,
-      this.chapterId,
-      this.chapterName,
-      this.collect,
-      this.courseId,
-      this.desc,
-      this.descMd,
-      this.envelopePic,
-      this.fresh,
-      this.id,
-      this.link,
-      this.niceDate,
-      this.niceShareDate,
-      this.origin,
-      this.prefix,
-      this.projectLink,
-      this.publishTime,
-      this.realSuperChapterId,
-      this.selfVisible,
-      this.shareDate,
-      this.shareUser,
-      this.superChapterId,
-      this.superChapterName,
-      this.tags,
-      this.title,
-      this.type,
-      this.userId,
-      this.visible,
-      this.zan});
+  ReposModel.itemType(this.itemType);
+
+  ReposModel({this.apkLink,
+    this.audit,
+    this.author,
+    this.canEdit,
+    this.chapterId,
+    this.chapterName,
+    this.collect,
+    this.courseId,
+    this.desc,
+    this.descMd,
+    this.envelopePic,
+    this.fresh,
+    this.id,
+    this.link,
+    this.niceDate,
+    this.niceShareDate,
+    this.origin,
+    this.prefix,
+    this.projectLink,
+    this.publishTime,
+    this.realSuperChapterId,
+    this.selfVisible,
+    this.shareDate,
+    this.shareUser,
+    this.superChapterId,
+    this.superChapterName,
+    this.tags,
+    this.title,
+    this.type,
+    this.userId,
+    this.visible,
+    this.zan});
 
   ReposModel.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
@@ -203,7 +206,8 @@ class ComReq {
 
   ComReq.fromJson(Map<String, dynamic> json) : cid = json['cid'];
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'cid': cid,
       };
 }
@@ -231,12 +235,14 @@ class TreeModel {
       : name = json['name'],
         id = json['id'],
         children = (json['children'] as List)
-            ?.map((e) => e == null
-                ? null
-                : new TreeModel.fromJson(e as Map<String, dynamic>))
+            ?.map((e) =>
+        e == null
+            ? null
+            : new TreeModel.fromJson(e as Map<String, dynamic>))
             ?.toList();
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'name': name,
         'id': id,
         'children': children,
