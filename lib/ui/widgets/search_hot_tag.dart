@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/utils/object_util.dart';
 
+typedef KeyWordFunc = void Function(String keyWord);
+
 class SearchHotTagWidget extends StatelessWidget {
   final List<SearchTagModel> _tagList;
+  final KeyWordFunc keyWordCallback;
 
-  const SearchHotTagWidget(this._tagList);
+  const SearchHotTagWidget(this._tagList, this.keyWordCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +35,10 @@ class SearchHotTagWidget extends StatelessWidget {
   Widget buildHotTagItem(SearchTagModel model) {
     return new InkWell(
       onTap: () {
-
+        keyWordCallback(model.name);
       },
       child: new Container(
-          height: 25,
+          height: 30,
           padding: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 0),
           decoration: BoxDecoration(
               color: Colors.lime[700], borderRadius: BorderRadius.circular(15)),

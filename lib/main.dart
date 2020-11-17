@@ -5,6 +5,7 @@ import 'package:frolo/ui/widgets/bottom_navigation_bar.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/utils.dart';
+import 'package:sp_util/sp_util.dart';
 
 import 'blocs/application_bloc.dart';
 import 'blocs/bloc_provider.dart';
@@ -54,7 +55,7 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  void _init() {
+  void _init() async {
     const bool inProduction = const bool.fromEnvironment("dart.vm.product");
     LogUtil.init(isDebug: !inProduction);
     if (!inProduction) {
@@ -70,6 +71,7 @@ class MyAppState extends State<MyApp> {
     }
     HttpConfig config = new HttpConfig(options: options);
     DioUtil().setConfig(config);
+    SpUtil.getInstance();
   }
 
   void init() {
