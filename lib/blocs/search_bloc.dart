@@ -4,6 +4,7 @@ import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
 import 'package:frolo/utils/log_util.dart';
+import 'package:frolo/utils/object_util.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sp_util/sp_util.dart';
 
@@ -17,6 +18,8 @@ class SearchBloc implements BlocBase {
 
   Stream<List<SearchTagModel>> get searchStream => _searchSubject.stream;
 
+  List<String> _localTags;
+
   Future getNetHotTag() {
     return _wanRepository.getSearchHotTag().then((list) {
       LogUtil.v('getHotTag list size ${list.length}', tag: 'SearchBloc');
@@ -27,8 +30,23 @@ class SearchBloc implements BlocBase {
   }
 
   Future getLocalHotTag() async {
-    List<String> locals = await SpUtil.getStringList(LOCAL_HOT_TAG);
-    LogUtil.v('getLocalHotTag values is  $locals', tag: 'SearchBloc');
+    _localTags = await SpUtil.getStringList(LOCAL_HOT_TAG);
+    LogUtil.v('getLocalHotTag values is  $_localTags', tag: 'SearchBloc');
+  }
+
+  void saveLocalTag(String key) async {
+    if (ObjectUtil.isEmptyList(_localTags)) {
+      _localTags = new List<String>();
+    }
+    if (_localTags.contains(key)) {
+      _localTags.remove(key);
+    }
+    _localTags.insert(0, key);
+    SpUtil.putStringList(LOCAL_HOT_TAG, _localTags);
+  }
+
+  void clearLocalTags() {
+    SpUtil.putStringList(LOCAL_HOT_TAG, new List<String>());
   }
 
   @override

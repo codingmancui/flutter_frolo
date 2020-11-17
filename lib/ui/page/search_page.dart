@@ -60,15 +60,15 @@ class _SearchStateWidget extends State<_SearchPageWidget> {
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
     }
-    List<String> keys = new List();
-    keys.add(key);
-    SpUtil.putStringList(SearchBloc.LOCAL_HOT_TAG, keys);
+    _searchBloc.saveLocalTag(key);
     FocusScope.of(context).requestFocus(FocusNode());
     _setSearchMode(true);
     LogUtil.v('do search $key', tag: 'SearchPage');
   }
 
-  void _doClear() {}
+  void _doClear() {
+    _searchBloc.clearLocalTags();
+  }
 
   @override
   Widget build(BuildContext context) {
