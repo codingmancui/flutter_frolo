@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/data/protocol/models.dart';
-import 'package:frolo/ui/widgets/pulse.dart';
+import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
 import 'package:frolo/utils/utils.dart';

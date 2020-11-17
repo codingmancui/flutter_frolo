@@ -10,8 +10,7 @@ class BannerModel {
         url = json['url'],
         imagePath = json['imagePath'];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'title': title,
         'id': id,
         'url': url,
@@ -64,41 +63,45 @@ class ReposModel {
   int visible;
   int zan;
   int itemType = 0;
+  bool isHotTag = false;
 
   ReposModel.itemType(this.itemType);
 
-  ReposModel({this.apkLink,
-    this.audit,
-    this.author,
-    this.canEdit,
-    this.chapterId,
-    this.chapterName,
-    this.collect,
-    this.courseId,
-    this.desc,
-    this.descMd,
-    this.envelopePic,
-    this.fresh,
-    this.id,
-    this.link,
-    this.niceDate,
-    this.niceShareDate,
-    this.origin,
-    this.prefix,
-    this.projectLink,
-    this.publishTime,
-    this.realSuperChapterId,
-    this.selfVisible,
-    this.shareDate,
-    this.shareUser,
-    this.superChapterId,
-    this.superChapterName,
-    this.tags,
-    this.title,
-    this.type,
-    this.userId,
-    this.visible,
-    this.zan});
+  ReposModel.isHotTag(this.isHotTag);
+
+  ReposModel(
+      {this.apkLink,
+      this.audit,
+      this.author,
+      this.canEdit,
+      this.chapterId,
+      this.chapterName,
+      this.collect,
+      this.courseId,
+      this.desc,
+      this.descMd,
+      this.envelopePic,
+      this.fresh,
+      this.id,
+      this.link,
+      this.niceDate,
+      this.niceShareDate,
+      this.origin,
+      this.prefix,
+      this.projectLink,
+      this.publishTime,
+      this.realSuperChapterId,
+      this.selfVisible,
+      this.shareDate,
+      this.shareUser,
+      this.superChapterId,
+      this.superChapterName,
+      this.tags,
+      this.title,
+      this.type,
+      this.userId,
+      this.visible,
+      this.zan});
 
   ReposModel.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
@@ -206,8 +209,7 @@ class ComReq {
 
   ComReq.fromJson(Map<String, dynamic> json) : cid = json['cid'];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'cid': cid,
       };
 }
@@ -235,14 +237,12 @@ class TreeModel {
       : name = json['name'],
         id = json['id'],
         children = (json['children'] as List)
-            ?.map((e) =>
-        e == null
-            ? null
-            : new TreeModel.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => e == null
+                ? null
+                : new TreeModel.fromJson(e as Map<String, dynamic>))
             ?.toList();
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'name': name,
         'id': id,
         'children': children,
@@ -263,14 +263,42 @@ class TreeModel {
   }
 }
 
-class ProjectData {
+class ProjectModel {
   int pageCount;
   int curPage;
   List<ReposModel> list;
 
-  ProjectData.fromData(List<ReposModel> list, int pageCount, int curPage) {
+  ProjectModel.fromData(List<ReposModel> list, int pageCount, int curPage) {
     this.list = list;
     this.pageCount = pageCount;
     this.curPage = curPage;
+  }
+}
+
+class SearchTagModel {
+  int id;
+  String link;
+  String name;
+  int order;
+  int visible;
+
+  SearchTagModel({this.id, this.link, this.name, this.order, this.visible});
+
+  SearchTagModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    link = json['link'];
+    name = json['name'];
+    order = json['order'];
+    visible = json['visible'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['link'] = this.link;
+    data['name'] = this.name;
+    data['order'] = this.order;
+    data['visible'] = this.visible;
+    return data;
   }
 }

@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/main_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/ui/page/search_page.dart';
 import 'package:frolo/ui/widgets/article_item.dart';
+import 'package:frolo/ui/widgets/loading/footer_v2.dart';
 import 'package:frolo/ui/widgets/header_item.dart';
 import 'package:frolo/ui/widgets/home_top_item.dart';
 import 'package:frolo/ui/widgets/number_swiper_indicator.dart';
-import 'package:frolo/ui/widgets/pulse.dart';
+import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/ui/widgets/repos_item.dart';
-import 'package:frolo/ui/widgets/square_circle.dart';
-import 'package:frolo/ui/widgets/waterdrop_header_v2.dart';
+import 'package:frolo/ui/widgets/loading/square_circle.dart';
+import 'package:frolo/ui/widgets/loading/waterdrop_header_v2.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/object_util.dart';
@@ -35,11 +37,14 @@ class _HomePageState extends State<HomePage> {
     _bloc = BlocProvider.of<MainBloc>(context);
     if (_isHomeInit) {
       _isHomeInit = false;
-      _bloc.getHomeData('home');
       _bloc.getAllData();
     }
     _bloc.homeEventStream.listen((event) {
-      _refreshController.refreshCompleted();
+      if (event.status == 0) {
+        _refreshController.refreshCompleted();
+      } else if (event.status == 1) {
+        _refreshController.loadComplete();
+      }
       LogUtil.e('HomePage is refreshCompleted', tag: 'Homepage');
     });
     super.initState();
@@ -50,19 +55,47 @@ class _HomePageState extends State<HomePage> {
     _bloc.onRefresh(labelId: 'home', isReload: true);
   }
 
+  void _onLoadMore() async {
+    _bloc.onLoadMore();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 0,
+          elevation: 0,
+          brightness: Brightness.dark,
+          actions: <Widget>[
+            new Container(
+              margin: EdgeInsets.only(right: 15),
+              child: new IconButton(
+                  icon: new Icon(
+                    Icons.search_rounded,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    NavigatorUtil.pushPage(context, new SearchPage());
+                    LogUtil.v('on home search click', tag: 'HomePage');
+                  }),
+            )
+          ],
+          toolbarHeight: 42,
+          centerTitle: true,
+          title: Text(
+            '首页',
+            style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.normal),
+          ),
         ),
         body: Stack(
           children: <Widget>[
             Center(
               child: StreamBuilder(
-                  stream: _bloc.bannerStream,
+                  stream: _bloc.allStream,
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<BannerModel>> snapshot) {
+                      AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       return Container(height: 0);
                     } else if (snapshot.hasError) {
@@ -86,9 +119,12 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           return new SmartRefresher(
               enablePullDown: true,
+              enablePullUp: true,
               onRefresh: _onRefresh,
+              onLoading: _onLoadMore,
               controller: _refreshController,
               header: WaterDropHeaderV2(),
+              footer: ClassicFooterV2(),
               child: ListView.builder(
                 itemBuilder: (BuildContext context, int position) {
                   return itemBuilder(position, snapshot);

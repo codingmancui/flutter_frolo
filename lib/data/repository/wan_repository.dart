@@ -3,6 +3,7 @@ import 'package:frolo/data/common/common.dart';
 import 'package:frolo/data/net/dio_util.dart';
 import 'package:frolo/data/protocol/base_resp.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/ui/widgets/search_hot_tag.dart';
 
 class WanRepository {
   Future<List<BannerModel>> getBanner() async {
@@ -37,8 +38,11 @@ class WanRepository {
   }
 
   Future<List<ReposModel>> getArticleList({int page: 0, data}) async {
-    BaseResp<Map<String,dynamic>> baseResp = await DioUtil().request<Map<String,dynamic>>(Method.get,
-        WanAndroidApi.getPath(path: WanAndroidApi.ARTICLE_LIST, page: page));
+    BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
+        .request<Map<String, dynamic>>(
+            Method.get,
+            WanAndroidApi.getPath(
+                path: WanAndroidApi.ARTICLE_LIST, page: page));
     List<ReposModel> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
@@ -105,7 +109,7 @@ class WanRepository {
     return treeList;
   }
 
-  Future<ProjectData> getProjectList({int page: 1, data}) async {
+  Future<ProjectModel> getProjectList({int page: 1, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(Method.get,
             WanAndroidApi.getPath(path: WanAndroidApi.PROJECT_LIST, page: page),
@@ -121,6 +125,21 @@ class WanRepository {
         return ReposModel.fromJson(value);
       }).toList();
     }
-    return ProjectData.fromData(list, comData.pageCount, comData.curPage);
+    return ProjectModel.fromData(list, comData.pageCount, comData.curPage);
+  }
+
+  Future<List<SearchTagModel>> getSearchHotTag() async {
+    BaseResp<List> baseResp = await DioUtil().request<List>(
+        Method.get, WanAndroidApi.getPath(path: WanAndroidApi.HOT_KEY));
+    List<SearchTagModel> tagList;
+    if (baseResp.code != Constant.status_success) {
+      return new Future.error(baseResp.msg);
+    }
+    if (baseResp.data != null) {
+      tagList = baseResp.data.map((value) {
+        return SearchTagModel.fromJson(value);
+      }).toList();
+    }
+    return tagList;
   }
 }

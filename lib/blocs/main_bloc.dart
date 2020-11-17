@@ -17,13 +17,6 @@ class MainBloc implements BlocBase {
   Stream<StatusEvent> get homeEventStream =>
       _homeEvent.stream.asBroadcastStream();
 
-  BehaviorSubject<List<BannerModel>> _banner =
-      BehaviorSubject<List<BannerModel>>();
-
-  Stream<List<BannerModel>> get bannerStream => _banner.stream;
-
-  Sink<List<BannerModel>> get _bannerSink => _banner.sink;
-
   BehaviorSubject<List<ReposModel>> _recRepos =
       BehaviorSubject<List<ReposModel>>();
 
@@ -46,32 +39,35 @@ class MainBloc implements BlocBase {
 
   int _page = 0;
 
+  var _dataWrapper = new List();
+
   @override
   Future getData({String labelId, int page}) {
-    return getHomeData(labelId);
-  }
-
-  Future getHomeData(String labelId) {
-    getRecWxArticle(labelId);
-    getRecRepos(labelId);
-    return getBanner(labelId);
+    return null;
   }
 
   @override
   Future onLoadMore({String labelId}) {
-    return getData(labelId: labelId, page: _page);
+    int page = ++_page;
+    return _loadMoreData(page);
   }
 
   @override
   Future onRefresh({String labelId, bool isReload}) {
-    return getData(labelId: labelId, page: 0);
+    return getAllData();
   }
 
-  Future getBanner(String labelId) {
-    return wanRepository.getBanner().then((list) {
-      _bannerSink.add(UnmodifiableListView<BannerModel>(list));
-      homeEventSink.add(new StatusEvent(status: 0));
+  Future _loadMoreData(int page) {
+    return wanRepository.getArticleList().then((list) {
+      List<ReposModel> v = list;
+      v.forEach((item) {
+        item.isHotTag = true;
+      });
+      _dataWrapper.addAll(v);
+      allSink.add(_dataWrapper);
+      homeEventSink.add(new StatusEvent(status: 1));
     }).catchError((_) {
+      _page--;
       homeEventSink.add(new StatusEvent(status: -1));
     });
   }
@@ -83,22 +79,28 @@ class MainBloc implements BlocBase {
   /// 首页列表获取
   Future getAllData() async {
     Future.wait([_getBanner(), _getTop(), _getArticle()]).then((data) {
-      var dataWrapper = new List();
+      _dataWrapper.clear();
       for (int i = 0; i < data.length; i++) {
         if (i == 0) {
-          dataWrapper.add(data.first);
+          _dataWrapper.add(data.first);
         } else if (i == 1) {
-          dataWrapper.add(ReposModel.itemType(1));
-          dataWrapper.addAll(data[i]);
+          _dataWrapper.add(ReposModel.itemType(1));
+          _dataWrapper.addAll(data[i]);
         } else if (i == data.length - 1) {
-          dataWrapper.add(ReposModel.itemType(2));
-          dataWrapper.addAll(data[i]);
+          _dataWrapper.add(ReposModel.itemType(2));
+          List<ReposModel> v = data[i] as List<ReposModel>;
+          v.forEach((value) {
+            value.isHotTag = true;
+          });
+          _dataWrapper.addAll(v);
         }
       }
-      allSink.add(dataWrapper);
-      LogUtil.e(dataWrapper.length, tag: 'MainBloc');
+      allSink.add(_dataWrapper);
+      homeEventSink.add(new StatusEvent(status: 0));
+      LogUtil.e(_dataWrapper.length, tag: 'MainBloc');
     }).catchError((e) {
       LogUtil.e(e, tag: 'MainBloc');
+      homeEventSink.add(new StatusEvent(status: -1));
     });
   }
 
@@ -137,7 +139,6 @@ class MainBloc implements BlocBase {
 
   @override
   void dispose() {
-    _banner.close();
     _recRepos.close();
     _recWxArticle.close();
     _homeEvent.close();

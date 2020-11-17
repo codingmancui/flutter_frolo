@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/data/protocol/models.dart';
-import 'package:frolo/ui/widgets/pulse.dart';
+import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/utils/ui_gaps.dart';
 
 class ReposItemV2 extends StatelessWidget {

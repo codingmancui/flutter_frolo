@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'likebtn/like_button.dart';
+import 'back_button.dart';
 
 class WebScaffold extends StatefulWidget {
   const WebScaffold({
@@ -25,12 +25,13 @@ class WebScaffoldState extends State<WebScaffold> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        leading: BackButton(color: Colors.white),
+        leading: BackButtonV2(color: Colors.white),
         title: new Text(
           widget.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: new TextStyle(
+            fontSize: 16,
             color: Colors.white,
           ),
         ),

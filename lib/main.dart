@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frolo/ui/widgets/bottom_navigation_bar.dart';
+import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/utils.dart';
 
@@ -39,20 +40,6 @@ class MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     init();
-    _statusBar();
-  }
-
-  /// 状态栏样式 沉浸式状态栏
-  _statusBar() {
-    // 白色沉浸式状态栏颜色  白色文字
-    SystemUiOverlayStyle light = SystemUiOverlayStyle(
-      /// 注意安卓要想实现沉浸式的状态栏 需要底部设置透明色
-      statusBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.dark,
-    );
-    SystemChrome.setSystemUIOverlayStyle(light);
   }
 
   // This widget is the root of your application.
@@ -68,7 +55,11 @@ class MyAppState extends State<MyApp> {
   }
 
   void _init() {
-    DioUtil.openDebug();
+    const bool inProduction = const bool.fromEnvironment("dart.vm.product");
+    LogUtil.init(isDebug: !inProduction);
+    if (!inProduction) {
+      DioUtil.openDebug();
+    }
     Options options = DioUtil.getDefOptions();
     options.baseUrl = Constant.server_address;
     String cookie = 'app_token';

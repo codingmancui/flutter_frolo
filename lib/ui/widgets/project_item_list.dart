@@ -4,13 +4,13 @@ import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/repos_item_v2.dart';
-import 'package:frolo/ui/widgets/square_circle.dart';
-import 'package:frolo/ui/widgets/waterdrop_header_v2.dart';
+import 'package:frolo/ui/widgets/loading/square_circle.dart';
+import 'package:frolo/ui/widgets/loading/waterdrop_header_v2.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'footer_v2.dart';
+import 'loading/footer_v2.dart';
 
 class ProjectListWidget extends StatefulWidget {
   ProjectListWidget({Key key, this.cid}) : super(key: key);
@@ -94,7 +94,7 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
                   return Text("报错啦");
                 } else {
                   return SpinKitSquareCircle(
-                      size: 60,
+                      size: 50,
                       color: Colors.lime,
                       duration: Duration(milliseconds: 500));
                 }
