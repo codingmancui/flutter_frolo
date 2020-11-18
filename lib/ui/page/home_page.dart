@@ -3,6 +3,7 @@ import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/main_bloc.dart';
+import 'package:frolo/blocs/search_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/page/search_page.dart';
 import 'package:frolo/ui/widgets/article_item.dart';
@@ -26,7 +27,8 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   bool _isHomeInit = true;
   MainBloc _bloc;
   RefreshController _refreshController =
@@ -75,7 +77,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    NavigatorUtil.pushPage(context, new SearchPage());
+                    NavigatorUtil.pushPage(
+                        context,
+                        new BlocProvider(
+                            child: new SearchPage(),
+                            bloc: new SearchBloc()));
                     LogUtil.v('on home search click', tag: 'HomePage');
                   }),
             )

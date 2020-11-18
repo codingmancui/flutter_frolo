@@ -7,22 +7,14 @@ import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:toast/toast.dart';
 
-class SearchPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new BlocProvider(
-        child: new _SearchPageWidget(), bloc: new SearchBloc());
-  }
-}
-
-class _SearchPageWidget extends StatefulWidget {
+class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new _SearchStateWidget();
   }
 }
 
-class _SearchStateWidget extends State<_SearchPageWidget> {
+class _SearchStateWidget extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   final ValueNotifier<bool> _showClose = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _inSearchMode = ValueNotifier<bool>(false);
