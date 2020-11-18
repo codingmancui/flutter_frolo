@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/utils/object_util.dart';
@@ -6,7 +5,7 @@ import 'package:frolo/utils/object_util.dart';
 typedef KeyWordFunc = void Function(String keyWord);
 
 class SearchHotTagWidget extends StatelessWidget {
-  final List<SearchTagModel> _tagList;
+  final List<dynamic> _tagList;
   final KeyWordFunc keyWordCallback;
 
   const SearchHotTagWidget(this._tagList, this.keyWordCallback);
@@ -28,14 +27,20 @@ class SearchHotTagWidget extends StatelessWidget {
 
   List<Widget> buildTags() {
     return _tagList.map((item) {
-      return buildHotTagItem(item);
+      var key = '';
+      if (item is SearchTagModel) {
+        key = item.name;
+      } else {
+        key = item;
+      }
+      return buildHotTagItem(key);
     }).toList();
   }
 
-  Widget buildHotTagItem(SearchTagModel model) {
+  Widget buildHotTagItem(String name) {
     return new InkWell(
       onTap: () {
-        keyWordCallback(model.name);
+        keyWordCallback(name);
       },
       child: new Container(
           height: 30,
@@ -46,7 +51,7 @@ class SearchHotTagWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                model.name,
+                name,
                 style: new TextStyle(
                   wordSpacing: 0,
                   letterSpacing: 0,

@@ -5,7 +5,6 @@ import 'package:frolo/ui/widgets/back_button.dart';
 import 'package:frolo/ui/widgets/search_tag_body.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:toast/toast.dart';
 
 class SearchPage extends StatelessWidget {
@@ -32,17 +31,16 @@ class _SearchStateWidget extends State<_SearchPageWidget> {
   @override
   void initState() {
     _searchBloc = BlocProvider.of<SearchBloc>(context);
-    _searchBloc.getData();
+    Future.delayed(new Duration(milliseconds: 50), () {
+      _searchBloc.getData();
+    });
     _searchController.addListener(() {
-      LogUtil.v('searchController text $_searchController', tag: 'SearchPage');
-
       var length = _searchController.text.trim().length;
       if (length > 0) {
         _showClose.value = true;
       } else {
         _showClose.value = false;
       }
-      LogUtil.v('searchController text $length', tag: 'SearchPage');
     });
     super.initState();
   }
@@ -87,7 +85,7 @@ class _SearchStateWidget extends State<_SearchPageWidget> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      _doSearch();
+                      _doSearch(key: _searchController.text);
                       LogUtil.v('on home search click', tag: 'SearchPage');
                     }),
               )
@@ -95,19 +93,29 @@ class _SearchStateWidget extends State<_SearchPageWidget> {
             leading: BackButtonV2(color: Colors.white),
             title: buildSearchTitle(),
           ),
-          body: ValueListenableBuilder<bool>(
-            valueListenable: _inSearchMode,
-            builder: (context, value, _) {
-              return value
-                  ? new Container(
-                      child: new Text('search list'),
-                    )
-                  : new SearchTagBodyWidget((key) {
-                      _doSearch(key: key);
-                    }, () {
-                      _doClear();
-                    }, _searchBloc);
-            },
+          body: new Stack(
+            children: <Widget>[
+              new SearchTagBodyWidget((key) {
+                _doSearch(key: key);
+              }, () {
+                _doClear();
+              }, _searchBloc),
+              ValueListenableBuilder<bool>(
+                  valueListenable: _inSearchMode,
+                  builder: (context, value, _) {
+                    return value
+                        ? new Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Color(0xFFFAFAFA),
+                            child: new Text('search list'),
+                          )
+                        : new Container(
+                            width: 0,
+                            height: 0,
+                          );
+                  }),
+            ],
           ),
         ),
         onWillPop: () {
@@ -139,7 +147,7 @@ class _SearchStateWidget extends State<_SearchPageWidget> {
           // autofocus: true,
           textInputAction: TextInputAction.search,
           onEditingComplete: () {
-            _doSearch();
+            _doSearch(key: _searchController.text);
           },
           controller: _searchController,
           decoration: new InputDecoration(

@@ -16,7 +16,7 @@ import 'data/net/dio_util.dart';
 void main() {
   runApp(BlocProvider<ApplicationBloc>(
     bloc: ApplicationBloc(),
-    child: BlocProvider(child: MyApp(), bloc: MainBloc()),
+    child: MyApp(),
   ));
 
   SystemUiOverlayStyle style = SystemUiOverlayStyle(

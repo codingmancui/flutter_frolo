@@ -7,18 +7,12 @@ import 'package:frolo/ui/widgets/project_item_list.dart';
 import 'package:frolo/ui/widgets/loading/square_circle.dart';
 import 'package:frolo/utils/utils.dart';
 
-class ProjectPage extends StatelessWidget {
+class ProjectPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) =>
-      new BlocProvider(child: _TabBarWidget(), bloc: TabBloc());
+  State<StatefulWidget> createState() => _ProjectPageState();
 }
 
-class _TabBarWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _TabBarWidgetState();
-}
-
-class _TabBarWidgetState extends State<_TabBarWidget>
+class _ProjectPageState extends State<ProjectPage>
     with SingleTickerProviderStateMixin {
   TabBloc _bloc;
   bool _init = true;

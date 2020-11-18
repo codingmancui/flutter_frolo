@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   bool _isHomeInit = true;
   MainBloc _bloc;
   RefreshController _refreshController =
@@ -61,6 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -263,4 +264,7 @@ class _HomePageState extends State<HomePage> {
       children: children,
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

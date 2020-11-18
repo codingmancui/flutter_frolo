@@ -1,14 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/blocs/search_bloc.dart';
-import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/search_hot_tag.dart';
 import 'package:frolo/utils/ui_gaps.dart';
+
+import 'loading/square_circle.dart';
 
 typedef Search = void Function(String key);
 typedef Clear = void Function();
 
 class SearchTagBodyWidget extends StatelessWidget {
+  static final String TAG = 'SearchTagBodyWidget';
   final Search _search;
   final SearchBloc _searchBloc;
   final Clear _clear;
@@ -25,7 +26,7 @@ class SearchTagBodyWidget extends StatelessWidget {
       children: <Widget>[
         new Container(
           padding: EdgeInsets.only(left: 20, right: 20),
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 10, bottom: 10),
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -39,52 +40,73 @@ class SearchTagBodyWidget extends StatelessWidget {
               ),
               Gaps.vGap10,
               new StreamBuilder(
-                  stream: _searchBloc.searchStream,
+                  stream: _searchBloc.netTagsStream,
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<SearchTagModel>> snapshot) {
+                      AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
                       return new SearchHotTagWidget(snapshot.data, (key) {
                         _search(key);
                       });
                     } else {
-                      return new Container(
-                        width: 0,
-                        height: 0,
-                      );
+                      return snapshot.hasError
+                          ? new Container(
+                              width: 0,
+                              height: 0,
+                            )
+                          : new SpinKitSquareCircle(
+                              size: 35,
+                              color: Colors.lime,
+                              duration: Duration(milliseconds: 500));
                     }
                   }),
               Gaps.vGap20,
-              new Container(
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    new Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        new Text(
-                          '历史搜索',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        new Expanded(flex: 1, child: new Container()),
-                        new InkWell(
-                          onTap: () {
-                            _clear();
-                          },
-                          child: new Text(
-                            '清空',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
+              new StreamBuilder(
+                  stream: _searchBloc.localTagsStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<dynamic>> snapshot) {
+                    return snapshot.hasData && snapshot.data.isNotEmpty
+                        ? new Container(
+                            child: new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                new Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Text(
+                                      '历史搜索',
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    new Expanded(
+                                        flex: 1, child: new Container()),
+                                    new InkWell(
+                                      onTap: () {
+                                        _clear();
+                                      },
+                                      child: new Text(
+                                        '清空',
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Gaps.vGap20,
+                                new SearchHotTagWidget(snapshot.data, (key) {
+                                  _search(key);
+                                }),
+                              ],
+                            ),
+                          )
+                        : new Container(
+                            width: 0,
+                            height: 0,
+                          );
+                  }),
             ],
           ),
         )
