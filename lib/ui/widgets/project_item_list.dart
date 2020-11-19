@@ -87,7 +87,7 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
           child: new StreamBuilder(
               stream: _tabListBloc.tabListStream,
               builder: (BuildContext context,
-                  AsyncSnapshot<List<ReposModel>> snapshot) {
+                  AsyncSnapshot<List<ArticleModel>> snapshot) {
                 if (snapshot.hasData) {
                   return Container(height: 0);
                 } else if (snapshot.hasError) {
@@ -105,14 +105,14 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
             child: new StreamBuilder(
                 stream: _tabListBloc.tabListStream,
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<ReposModel>> snapshot) {
+                    AsyncSnapshot<List<ArticleModel>> snapshot) {
                   return buildSmartRefresher(snapshot);
                 }))
       ],
     );
   }
 
-  Widget buildSmartRefresher(AsyncSnapshot<List<ReposModel>> snapshot) {
+  Widget buildSmartRefresher(AsyncSnapshot<List<ArticleModel>> snapshot) {
     if (ObjectUtil.isEmpty(snapshot.data)) {
       return new Container(
         height: 0,

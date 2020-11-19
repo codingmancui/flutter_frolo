@@ -7,12 +7,14 @@ import 'package:frolo/utils/ui_gaps.dart';
 
 class HomeTopItem extends StatelessWidget {
   final int position;
-  final ReposModel model;
+  final ArticleModel model;
 
   const HomeTopItem(this.position, this.model);
 
   @override
   Widget build(BuildContext context) {
+    bool isNew = DateTime.now().millisecondsSinceEpoch - model.publishTime <
+        24 * 60 * 60 * 1000;
     return new InkWell(
       onTap: () {
         NavigatorUtil.pushWeb(context,
@@ -33,13 +35,13 @@ class HomeTopItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                  position == 2 ? '新' : position == 3 ? '新' : '',
+                  isNew ? '新' : '',
                   style: new TextStyle(
                       color: Colors.green,
                       fontSize: 12,
                       fontWeight: FontWeight.bold),
                 ),
-                Gaps.getHGap(position == 2 || position == 3 ? 5 : 0),
+                Gaps.getHGap(isNew ? 5 : 0),
                 new Text(
                   ObjectUtil.isEmptyString(model.author)
                       ? model.shareUser
@@ -140,7 +142,7 @@ class HomeTopItem extends StatelessWidget {
       child: new Text(
         '置顶',
         textAlign: TextAlign.center,
-        style: new TextStyle(
+        style: const TextStyle(
             color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
       ),
     );

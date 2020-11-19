@@ -29,7 +29,7 @@ class BannerModel {
   }
 }
 
-class ReposModel {
+class ArticleModel {
   String apkLink;
   int audit;
   String author;
@@ -65,11 +65,11 @@ class ReposModel {
   int itemType = 0;
   bool isHotTag = false;
 
-  ReposModel.itemType(this.itemType);
+  ArticleModel.itemType(this.itemType);
 
-  ReposModel.isHotTag(this.isHotTag);
+  ArticleModel.isHotTag(this.isHotTag);
 
-  ReposModel(
+  ArticleModel(
       {this.apkLink,
       this.audit,
       this.author,
@@ -103,7 +103,7 @@ class ReposModel {
       this.visible,
       this.zan});
 
-  ReposModel.fromJson(Map<String, dynamic> json) {
+  ArticleModel.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
     audit = json['audit'];
     author = json['author'];
@@ -263,12 +263,12 @@ class TreeModel {
   }
 }
 
-class ProjectModel {
+class DataPagingModel {
   int pageCount;
   int curPage;
-  List<ReposModel> list;
+  List<ArticleModel> list;
 
-  ProjectModel.fromData(List<ReposModel> list, int pageCount, int curPage) {
+  DataPagingModel.fromData(List<ArticleModel> list, int pageCount, int curPage) {
     this.list = list;
     this.pageCount = pageCount;
     this.curPage = curPage;

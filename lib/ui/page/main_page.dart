@@ -7,14 +7,14 @@ import 'package:frolo/ui/page/me_page.dart';
 import 'package:frolo/ui/page/repos_page.dart';
 import 'package:frolo/ui/page/project_page.dart';
 
-class BottomNavBar extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _BottomNavigationBarState();
+    return _MainPageState();
   }
 }
 
-class _BottomNavigationBarState extends State<BottomNavBar> {
+class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   List<Widget> _bottomNavPages = List();
 

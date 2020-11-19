@@ -17,19 +17,19 @@ class MainBloc implements BlocBase {
   Stream<StatusEvent> get homeEventStream =>
       _homeEvent.stream.asBroadcastStream();
 
-  BehaviorSubject<List<ReposModel>> _recRepos =
-      BehaviorSubject<List<ReposModel>>();
+  BehaviorSubject<List<ArticleModel>> _recRepos =
+      BehaviorSubject<List<ArticleModel>>();
 
-  Sink<List<ReposModel>> get _recReposSink => _recRepos.sink;
+  Sink<List<ArticleModel>> get _recReposSink => _recRepos.sink;
 
-  Stream<List<ReposModel>> get recReposStream => _recRepos.stream;
+  Stream<List<ArticleModel>> get recReposStream => _recRepos.stream;
 
-  BehaviorSubject<List<ReposModel>> _recWxArticle =
-      BehaviorSubject<List<ReposModel>>();
+  BehaviorSubject<List<ArticleModel>> _recWxArticle =
+      BehaviorSubject<List<ArticleModel>>();
 
-  Sink<List<ReposModel>> get _recWxArticleSink => _recWxArticle.sink;
+  Sink<List<ArticleModel>> get _recWxArticleSink => _recWxArticle.sink;
 
-  Stream<List<ReposModel>> get recWxArticleStream => _recWxArticle.stream;
+  Stream<List<ArticleModel>> get recWxArticleStream => _recWxArticle.stream;
 
   BehaviorSubject<List<dynamic>> _allData = BehaviorSubject<List<dynamic>>();
 
@@ -59,7 +59,7 @@ class MainBloc implements BlocBase {
 
   Future _loadMoreData(int page) {
     return wanRepository.getArticleList().then((list) {
-      List<ReposModel> v = list;
+      List<ArticleModel> v = list;
       v.forEach((item) {
         item.isHotTag = true;
       });
@@ -84,11 +84,11 @@ class MainBloc implements BlocBase {
         if (i == 0) {
           _dataWrapper.add(data.first);
         } else if (i == 1) {
-          _dataWrapper.add(ReposModel.itemType(1));
+          _dataWrapper.add(ArticleModel.itemType(1));
           _dataWrapper.addAll(data[i]);
         } else if (i == data.length - 1) {
-          _dataWrapper.add(ReposModel.itemType(2));
-          List<ReposModel> v = data[i] as List<ReposModel>;
+          _dataWrapper.add(ArticleModel.itemType(2));
+          List<ArticleModel> v = data[i] as List<ArticleModel>;
           v.forEach((value) {
             value.isHotTag = true;
           });
@@ -104,15 +104,15 @@ class MainBloc implements BlocBase {
     });
   }
 
-  Future<List<ReposModel>> _getTop() async {
+  Future<List<ArticleModel>> _getTop() async {
     return wanRepository.getTopList();
   }
 
-  Future<List<ReposModel>> _getArticle() async {
+  Future<List<ArticleModel>> _getArticle() async {
     return wanRepository.getArticleList();
   }
 
-  Future<List<ReposModel>> getRecWxArticleV2() async {
+  Future<List<ArticleModel>> getRecWxArticleV2() async {
     int _id = 408;
     return wanRepository.getWxArticleList(id: _id);
   }
@@ -123,7 +123,7 @@ class MainBloc implements BlocBase {
       if (list.length > 10) {
         list = list.sublist(0, 10);
       }
-      _recReposSink.add(UnmodifiableListView<ReposModel>(list));
+      _recReposSink.add(UnmodifiableListView<ArticleModel>(list));
     });
   }
 
@@ -133,7 +133,7 @@ class MainBloc implements BlocBase {
       if (list.length > 10) {
         list = list.sublist(0, 10);
       }
-      _recWxArticleSink.add(UnmodifiableListView<ReposModel>(list));
+      _recWxArticleSink.add(UnmodifiableListView<ArticleModel>(list));
     });
   }
 

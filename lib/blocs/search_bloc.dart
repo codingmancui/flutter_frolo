@@ -24,6 +24,12 @@ class SearchBloc implements BlocBase {
 
   Stream<List<String>> get localTagsStream => _localTagsSubject.stream;
 
+  BehaviorSubject<List<ArticleModel>> _searchSubject = BehaviorSubject();
+
+  Sink<List<ArticleModel>> get searchSink => _searchSubject.sink;
+
+  Stream<List<ArticleModel>> get searchStream => _searchSubject.stream;
+
   List<String> _localTags;
 
   Future getNetHotTag() {
@@ -36,7 +42,7 @@ class SearchBloc implements BlocBase {
   }
 
   Future getLocalHotTag() async {
-    _localTags = await SpUtil.getStringList(LOCAL_HOT_TAG);
+    _localTags = SpUtil.getStringList(LOCAL_HOT_TAG);
     localTagsSink.add(UnmodifiableListView<String>(_localTags));
     LogUtil.v('getLocalHotTag values is  $_localTags', tag: 'SearchBloc');
   }
@@ -51,7 +57,7 @@ class SearchBloc implements BlocBase {
     _localTags.insert(0, key);
     SpUtil.putStringList(LOCAL_HOT_TAG, _localTags).then((value) {
       if (value) {
-        localTagsSink.add(UnmodifiableListView<String>(_localTags));
+        // localTagsSink.add(UnmodifiableListView<String>(_localTags));
       }
     });
   }
@@ -62,10 +68,26 @@ class SearchBloc implements BlocBase {
     localTagsSink.add(UnmodifiableListView<String>(_localTags));
   }
 
+  ///清空上一次记录
+  void clearSearchResult() {
+    searchSink.add(null);
+  }
+
+  Future getSearchList(String key) {
+    this.saveLocalTag(key);
+    return _wanRepository.getSearchList(page: 0, data: {'k': key}).then((data) {
+      searchSink.add(data.list);
+      LogUtil.v('getSearch list size ${data.list.length}', tag: 'SearchBloc');
+    }).catchError((e) {
+      LogUtil.v('getSearch list on error', tag: 'SearchBloc');
+    });
+  }
+
   @override
   void dispose() {
     _netTagsSubject.close();
     _localTagsSubject.close();
+    _searchSubject.close();
   }
 
   @override

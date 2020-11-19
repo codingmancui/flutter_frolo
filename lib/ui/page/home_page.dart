@@ -80,8 +80,7 @@ class _HomePageState extends State<HomePage>
                     NavigatorUtil.pushPage(
                         context,
                         new BlocProvider(
-                            child: new SearchPage(),
-                            bloc: new SearchBloc()));
+                            child: new SearchPage(), bloc: new SearchBloc()));
                     LogUtil.v('on home search click', tag: 'HomePage');
                   }),
             )
@@ -96,48 +95,36 @@ class _HomePageState extends State<HomePage>
                 fontWeight: FontWeight.normal),
           ),
         ),
-        body: Stack(
-          children: <Widget>[
-            Center(
-              child: StreamBuilder(
-                  stream: _bloc.allStream,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<dynamic>> snapshot) {
-                    if (snapshot.hasData) {
-                      return Container(height: 0);
-                    } else if (snapshot.hasError) {
-                      return Text("报错啦");
-                    } else {
-                      return SpinKitSquareCircle(
-                          size: 50,
-                          color: Colors.lime,
-                          duration: Duration(milliseconds: 500));
-                    }
-                  }),
-            ),
-            buildListView()
-          ],
-        ));
+        body: buildListView());
   }
 
   Widget buildListView() {
     return StreamBuilder(
         stream: _bloc.allStream,
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          return new SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: true,
-              onRefresh: _onRefresh,
-              onLoading: _onLoadMore,
-              controller: _refreshController,
-              header: WaterDropHeaderV2(),
-              footer: ClassicFooterV2(),
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int position) {
-                  return itemBuilder(position, snapshot);
-                },
-                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
-              ));
+          if (snapshot.hasData) {
+            return new SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                onRefresh: _onRefresh,
+                onLoading: _onLoadMore,
+                controller: _refreshController,
+                header: const WaterDropHeaderV2(),
+                footer: const ClassicFooterV2(),
+                child: ListView.builder(
+                  itemBuilder: (BuildContext context, int position) {
+                    return itemBuilder(position, snapshot);
+                  },
+                  itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+                ));
+          } else if (snapshot.hasError) {
+            return new Text('出错了');
+          } else {
+            return SpinKitSquareCircle(
+                size: 50,
+                color: Colors.lime,
+                duration: Duration(milliseconds: 500));
+          }
         });
   }
 
@@ -147,7 +134,7 @@ class _HomePageState extends State<HomePage>
       if (data is List) {
         return buildBanner(context, data as List<BannerModel>);
       } else {
-        var item = data as ReposModel;
+        var item = data as ArticleModel;
         switch (item.itemType) {
           case 0:
             {
@@ -155,32 +142,32 @@ class _HomePageState extends State<HomePage>
             }
           case 1:
             {
-              return new HeaderItem(
+              return const HeaderItem(
                 leftIcon: Icons.book,
-                titleColor: Colors.red[400],
+                titleColor: Color(0xFFEF5350),
                 titleId: 'rec_repos',
                 title: '置顶文章',
               );
             }
           case 2:
             {
-              return new HeaderItem(
+              return const HeaderItem(
                 leftIcon: Icons.library_books,
-                titleColor: Colors.red[400],
+                titleColor: Color(0xFFEF5350),
                 titleId: 'rec_repos',
                 title: '热门博文',
               );
             }
           default:
             {
-              return Container(
+              return new Container(
                 height: 0,
               );
             }
         }
       }
     } else {
-      return Container(
+      return new Container(
         height: 0,
       );
     }
@@ -207,7 +194,7 @@ class _HomePageState extends State<HomePage>
                 fit: BoxFit.fill,
                 imageUrl: model.imagePath,
                 placeholder: (context, url) =>
-                    new SpinKitPulse(color: Colors.lightGreen),
+                    const SpinKitPulse(color: Colors.lightGreen),
                 errorWidget: (context, url, error) => new Icon(Icons.error),
               ),
             );
@@ -215,7 +202,7 @@ class _HomePageState extends State<HomePage>
         ));
   }
 
-  Widget buildRepos(BuildContext context, List<ReposModel> list) {
+  Widget buildRepos(BuildContext context, List<ArticleModel> list) {
     if (ObjectUtil.isEmpty(list)) {
       return new Container(height: 0.0);
     }
@@ -243,7 +230,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget buildWxArticle(BuildContext context, List<ReposModel> list) {
+  Widget buildWxArticle(BuildContext context, List<ArticleModel> list) {
     if (ObjectUtil.isEmpty(list)) {
       return new Container(height: 0.0);
     }

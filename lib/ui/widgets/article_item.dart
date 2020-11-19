@@ -12,7 +12,7 @@ class ArticleItem extends StatelessWidget {
     this.labelId,
     this.isHome,
   }) : super(key: key);
-  final ReposModel model;
+  final ArticleModel model;
   final String labelId;
   final bool isHome;
 

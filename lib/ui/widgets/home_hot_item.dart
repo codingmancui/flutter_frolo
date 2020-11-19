@@ -6,7 +6,7 @@ import 'package:frolo/utils/ui_gaps.dart';
 
 class HomeHotItem extends StatelessWidget {
   final int position;
-  final ReposModel model;
+  final ArticleModel model;
 
   const HomeHotItem(this.position, this.model);
 

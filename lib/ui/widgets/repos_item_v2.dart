@@ -8,7 +8,7 @@ import 'package:frolo/utils/ui_gaps.dart';
 
 class ReposItemV2 extends StatelessWidget {
   const ReposItemV2(this.model, {Key key}) : super(key: key);
-  final ReposModel model;
+  final ArticleModel model;
 
   @override
   Widget build(BuildContext context) {

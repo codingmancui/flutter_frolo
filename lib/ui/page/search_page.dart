@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/search_bloc.dart';
 import 'package:frolo/ui/widgets/back_button.dart';
+import 'package:frolo/ui/widgets/search_result_widget.dart';
 import 'package:frolo/ui/widgets/search_tag_body.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
@@ -50,9 +51,12 @@ class _SearchStateWidget extends State<SearchPage> {
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
     }
-    _searchBloc.saveLocalTag(key);
-    FocusScope.of(context).requestFocus(FocusNode());
     _setSearchMode(true);
+
+    Future.delayed(new Duration(milliseconds: 500), () {
+      _searchBloc.getSearchList(key);
+      FocusScope.of(context).requestFocus(FocusNode());
+    });
     LogUtil.v('do search $key', tag: 'SearchPage');
   }
 
@@ -96,12 +100,7 @@ class _SearchStateWidget extends State<SearchPage> {
                   valueListenable: _inSearchMode,
                   builder: (context, value, _) {
                     return value
-                        ? new Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: Color(0xFFFAFAFA),
-                            child: new Text('search list'),
-                          )
+                        ? new SearchResultWidget(_searchBloc)
                         : new Container(
                             width: 0,
                             height: 0,
@@ -121,6 +120,10 @@ class _SearchStateWidget extends State<SearchPage> {
 
   void _setSearchMode(bool v) {
     _inSearchMode.value = v;
+    if (!v) {
+      _searchBloc.getLocalHotTag();
+      _searchBloc.clearSearchResult();
+    }
   }
 
   bool _getSearchMode() => _inSearchMode.value;
@@ -167,7 +170,7 @@ class _SearchStateWidget extends State<SearchPage> {
                         _searchController.clear();
                       })
                   : new Container(
-                      width: 15,
+                      width: 0,
                       height: 0,
                     );
             }),

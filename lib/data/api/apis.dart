@@ -24,6 +24,9 @@ class WanAndroidApi {
   /// 首页置顶 http://www.wanandroid.com/article/top/json
   static const String TOP_LISt = "article/top";
 
+  /// 搜索 https://www.wanandroid.com/article/query/0/json?k=我的
+  static const String SEARCH_LIST = "article/query";
+
   /// 获取公众号列表 http://wanandroid.com/wxarticle/chapters/json
   static const String WXARTICLE_CHAPTERS = "wxarticle/chapters";
 
