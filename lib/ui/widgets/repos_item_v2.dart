@@ -13,14 +13,14 @@ class ReposItemV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 152,
+      padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+      height: 168,
       child: new Row(
         children: <Widget>[
           new Container(
-              margin: EdgeInsets.only(left: 5),
               alignment: Alignment.center,
               child: new ClipRRect(
-                borderRadius: BorderRadius.all(Radius.elliptical(8, 8)),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
                 child: new CachedNetworkImage(
                   width: 84,
                   height: 128,
@@ -44,7 +44,7 @@ class ReposItemV2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Container(
-                  margin: EdgeInsets.only(top: 20, left: 10),
+                  margin: EdgeInsets.only(top: 10, left: 10),
                   child: Text(model.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

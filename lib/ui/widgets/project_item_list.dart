@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/ui/widgets/project_list_item.dart';
+import 'package:frolo/ui/widgets/refresh_scaffold.dart';
 import 'package:frolo/ui/widgets/repos_item_v2.dart';
 import 'package:frolo/ui/widgets/loading/square_circle.dart';
 import 'package:frolo/ui/widgets/loading/refresh_header.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
+import 'package:frolo/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'loading/load_more_footer.dart';
@@ -80,63 +82,27 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return new Stack(
-      children: <Widget>[
-        Center(
-          //加载动画
-          child: new StreamBuilder(
-              stream: _tabListBloc.tabListStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<ArticleModel>> snapshot) {
-                if (snapshot.hasData) {
-                  return Container(height: 0);
-                } else if (snapshot.hasError) {
-                  return Text("报错啦");
-                } else {
-                  return SpinKitSquareCircle(
-                      size: 50,
-                      color: Colors.lime,
-                      duration: Duration(milliseconds: 500));
-                }
-              }),
-        ),
-        new Container(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: new StreamBuilder(
-                stream: _tabListBloc.tabListStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<ArticleModel>> snapshot) {
-                  return buildSmartRefresher(snapshot);
-                }))
-      ],
-    );
-  }
-
-  Widget buildSmartRefresher(AsyncSnapshot<List<ArticleModel>> snapshot) {
-    if (ObjectUtil.isEmpty(snapshot.data)) {
-      return new Container(
-        height: 0,
-        width: 0,
-      );
-    }
-
-    return new SmartRefresher(
-      enablePullDown: true,
-      enablePullUp: true,
-      onRefresh: _onRefresh,
-      onLoading: _onLoadMore,
-      controller: _refreshController,
-      header: RefreshHeader(),
-      footer: LoadMoreFooter(),
-      child: ListView.separated(
-        itemBuilder: (BuildContext context, int index) {
-          return new ReposItemV2(snapshot.data[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) =>
-            Divider(height: 0.5, color: Colors.grey[300]),
-        itemCount: snapshot.data.length,
-      ),
-    );
+    return new StreamBuilder(
+        stream: _tabListBloc.tabListStream,
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ArticleModel>> snapshot) {
+          int status = Utils.getLoadStatus(snapshot.hasError, snapshot.data);
+          return new RefreshScaffold(
+              loadingStatus: status,
+              controller: _refreshController,
+              enablePullDown: true,
+              enablePullUp: true,
+              onRefresh: _onRefresh,
+              onLoadMore: _onLoadMore,
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return new ProjectListItem(index, snapshot.data[index]);
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    Divider(height: 0.5, color: Colors.grey[300]),
+                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+              ));
+        });
   }
 
   @override

@@ -45,11 +45,14 @@ class _SearchStateWidget extends State<SearchPage> {
     _inSearchMode.dispose();
   }
 
-  void _doSearch({String key = ''}) {
+  void _doSearch({String key = '', bool fromTag = false}) {
     if (ObjectUtil.isEmptyString(key)) {
       Toast.show("关键字不能为空！", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
+    }
+    if (fromTag) {
+      _searchController.text = key;
     }
     _setSearchMode(true);
 
@@ -92,7 +95,7 @@ class _SearchStateWidget extends State<SearchPage> {
           body: new Stack(
             children: <Widget>[
               new SearchTagBodyWidget((key) {
-                _doSearch(key: key);
+                _doSearch(key: key, fromTag: true);
               }, () {
                 _doClear();
               }, _searchBloc),
