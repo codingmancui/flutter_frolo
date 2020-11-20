@@ -29,7 +29,7 @@ class ProjectListItem extends StatelessWidget {
         decoration: new BoxDecoration(
             border: new Border(
                 bottom: new BorderSide(color: Colors.grey[300], width: 0.35))),
-        padding: EdgeInsets.only(left: 20, top: 15, right: 20, bottom: 15),
+        padding: EdgeInsets.only(left: 20, top: 12, right: 20, bottom: 12),
         child: new Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,14 +47,21 @@ class ProjectListItem extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Gaps.getHGap(isNew ? 5 : 0),
-                new Text(
-                  ObjectUtil.isEmptyString(model.author)
-                      ? model.shareUser
-                      : model.author,
-                  style: new TextStyle(
-                      color: Colors.green,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold),
+                new Container(
+                  padding:
+                      EdgeInsets.only(left: 10, top: 4, right: 10, bottom: 4),
+                  decoration: BoxDecoration(
+                      color: Color(0xFFecf6ff),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: new Text(
+                    ObjectUtil.isEmptyString(model.author)
+                        ? model.shareUser
+                        : model.author,
+                    style: new TextStyle(
+                        color: Color(0xff2d97fe),
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 new Expanded(flex: 1, child: Container()),
                 new Text(
