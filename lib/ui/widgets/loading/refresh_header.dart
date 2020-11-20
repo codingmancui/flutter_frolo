@@ -14,7 +14,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'double_bounce.dart';
 
 /// QQ ios refresh  header effect
-class WaterDropHeaderV2 extends RefreshIndicator {
+class RefreshHeader extends RefreshIndicator {
   /// refreshing content
   final Widget refresh;
 
@@ -30,7 +30,7 @@ class WaterDropHeaderV2 extends RefreshIndicator {
   /// waterDrop color,default grey
   final Color waterDropColor;
 
-  const WaterDropHeaderV2({
+  const RefreshHeader({
     Key key,
     this.refresh,
     this.complete,
@@ -54,7 +54,7 @@ class WaterDropHeaderV2 extends RefreshIndicator {
   }
 }
 
-class _WaterDropHeaderState extends RefreshIndicatorState<WaterDropHeaderV2>
+class _WaterDropHeaderState extends RefreshIndicatorState<RefreshHeader>
     with TickerProviderStateMixin {
   AnimationController _animationController;
   AnimationController _dismissCtl;
@@ -226,7 +226,7 @@ class _QqPainter extends CustomPainter {
     Path path = Path();
     path.moveTo(middleW - circleSize, originH);
 
-    //drawleft
+    //draw left
     path.cubicTo(
         middleW - circleSize,
         originH,
@@ -261,7 +261,6 @@ class _QqPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
     return oldDelegate != this;
   }
 }

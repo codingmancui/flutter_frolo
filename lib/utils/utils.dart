@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frolo/data/common/common.dart';
 import 'package:frolo/utils/timeline_util.dart';
 
 class Utils {
@@ -15,13 +16,11 @@ class Utils {
 
   static String getTimeLine(BuildContext context, int timeMillis) {
     return TimelineUtil.format(timeMillis,
-        locale: Localizations
-            .localeOf(context)
-            .languageCode,
+        locale: Localizations.localeOf(context).languageCode,
         dayFormat: DayFormat.Common);
   }
 
- static MaterialColor createMaterialColor(Color color) {
+  static MaterialColor createMaterialColor(Color color) {
     List strengths = <double>[.05];
     Map swatch = <int, Color>{};
     final int r = color.red, g = color.green, b = color.blue;
@@ -39,5 +38,16 @@ class Utils {
       );
     });
     return MaterialColor(color.value, swatch);
+  }
+
+  static int getLoadStatus(bool hasError, List data) {
+    if (hasError) return LoadingStatus.fail;
+    if (data == null) {
+      return LoadingStatus.loading;
+    } else if (data.isEmpty) {
+      return LoadingStatus.empty;
+    } else {
+      return LoadingStatus.success;
+    }
   }
 }

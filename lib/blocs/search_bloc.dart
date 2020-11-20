@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
+import 'package:frolo/event/event.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:rxdart/subjects.dart';
@@ -11,6 +12,12 @@ import 'package:sp_util/sp_util.dart';
 class SearchBloc implements BlocBase {
   static const String LOCAL_HOT_TAG = 'local_hot_tag';
   WanRepository _wanRepository = new WanRepository();
+
+  BehaviorSubject<StatusEvent> _event = BehaviorSubject();
+
+  Sink<StatusEvent> get eventSink => _event.sink;
+
+  Stream<StatusEvent> get eventStream => _event.stream.asBroadcastStream();
 
   BehaviorSubject<List<SearchTagModel>> _netTagsSubject = BehaviorSubject();
 
@@ -31,6 +38,9 @@ class SearchBloc implements BlocBase {
   Stream<List<ArticleModel>> get searchStream => _searchSubject.stream;
 
   List<String> _localTags;
+  int _page = 0;
+  String _key = '';
+  List<ArticleModel> _listData = new List();
 
   Future getNetHotTag() {
     return _wanRepository.getSearchHotTag().then((list) {
@@ -73,12 +83,34 @@ class SearchBloc implements BlocBase {
     searchSink.add(null);
   }
 
-  Future getSearchList(String key) {
+  _loadMoreData(int page, String key) {
+    getSearchList(key, page);
+  }
+
+  Future getSearchList(String key, int page) {
+    this._key = key;
     this.saveLocalTag(key);
-    return _wanRepository.getSearchList(page: 0, data: {'k': key}).then((data) {
-      searchSink.add(data.list);
-      LogUtil.v('getSearch list size ${data.list.length}', tag: 'SearchBloc');
+    return _wanRepository
+        .getSearchList(page: page, data: {'k': key}).then((data) {
+      if (page == 0) {
+        _listData.clear();
+      }
+      _listData.addAll(data.list);
+      searchSink.add(_listData);
+
+      if (page == 0) {
+        eventSink.add(
+            new StatusEvent(noMore: data.curPage == data.pageCount, status: 0));
+      } else {
+        data.curPage == data.pageCount
+            ? eventSink.add(new StatusEvent(status: 2))
+            : eventSink.add(new StatusEvent(status: 1));
+      }
+      LogUtil.v(
+          'getSearch list on success page  ${data.curPage}   ${data.pageCount}',
+          tag: 'SearchBloc');
     }).catchError((e) {
+      eventSink.add(new StatusEvent(status: -1));
       LogUtil.v('getSearch list on error', tag: 'SearchBloc');
     });
   }
@@ -88,6 +120,7 @@ class SearchBloc implements BlocBase {
     _netTagsSubject.close();
     _localTagsSubject.close();
     _searchSubject.close();
+    _event.close();
   }
 
   @override
@@ -98,11 +131,14 @@ class SearchBloc implements BlocBase {
 
   @override
   Future onLoadMore({String labelId}) {
-    return null;
+    int page = ++_page;
+    return _loadMoreData(page, _key);
   }
 
   @override
   Future onRefresh({String labelId}) {
-    return null;
+    _listData.clear();
+    _page = 0;
+    return getSearchList(_key, _page);
   }
 }

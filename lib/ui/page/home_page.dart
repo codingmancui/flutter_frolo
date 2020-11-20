@@ -7,14 +7,14 @@ import 'package:frolo/blocs/search_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/page/search_page.dart';
 import 'package:frolo/ui/widgets/article_item.dart';
-import 'package:frolo/ui/widgets/loading/footer_v2.dart';
+import 'package:frolo/ui/widgets/loading/load_more_footer.dart';
 import 'package:frolo/ui/widgets/header_item.dart';
 import 'package:frolo/ui/widgets/home_top_item.dart';
 import 'package:frolo/ui/widgets/number_swiper_indicator.dart';
 import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/ui/widgets/repos_item.dart';
 import 'package:frolo/ui/widgets/loading/square_circle.dart';
-import 'package:frolo/ui/widgets/loading/waterdrop_header_v2.dart';
+import 'package:frolo/ui/widgets/loading/refresh_header.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/object_util.dart';
@@ -109,8 +109,8 @@ class _HomePageState extends State<HomePage>
                 onRefresh: _onRefresh,
                 onLoading: _onLoadMore,
                 controller: _refreshController,
-                header: const WaterDropHeaderV2(),
-                footer: const ClassicFooterV2(),
+                header: const RefreshHeader(),
+                footer: const LoadMoreFooter(),
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int position) {
                     return itemBuilder(position, snapshot);

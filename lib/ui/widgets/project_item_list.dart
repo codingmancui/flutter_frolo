@@ -5,12 +5,12 @@ import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/repos_item_v2.dart';
 import 'package:frolo/ui/widgets/loading/square_circle.dart';
-import 'package:frolo/ui/widgets/loading/waterdrop_header_v2.dart';
+import 'package:frolo/ui/widgets/loading/refresh_header.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'loading/footer_v2.dart';
+import 'loading/load_more_footer.dart';
 
 class ProjectListWidget extends StatefulWidget {
   ProjectListWidget({Key key, this.cid}) : super(key: key);
@@ -126,8 +126,8 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
       onRefresh: _onRefresh,
       onLoading: _onLoadMore,
       controller: _refreshController,
-      header: WaterDropHeaderV2(),
-      footer: ClassicFooterV2(),
+      header: RefreshHeader(),
+      footer: LoadMoreFooter(),
       child: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
           return new ReposItemV2(snapshot.data[index]);

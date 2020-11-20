@@ -54,7 +54,7 @@ class _SearchStateWidget extends State<SearchPage> {
     _setSearchMode(true);
 
     Future.delayed(new Duration(milliseconds: 500), () {
-      _searchBloc.getSearchList(key);
+      _searchBloc.getSearchList(key, 0);
       FocusScope.of(context).requestFocus(FocusNode());
     });
     LogUtil.v('do search $key', tag: 'SearchPage');

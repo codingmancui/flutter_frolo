@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // See also:
 //
 // [ClassicHeader]
-class ClassicFooterV2 extends LoadIndicator {
+class LoadMoreFooter extends LoadIndicator {
   final String loadingText = '正在加载中',
       noDataText = '没有更多数据',
       failedText = '网络异常,加载失败';
@@ -34,7 +34,7 @@ class ClassicFooterV2 extends LoadIndicator {
   /// notice that ,this attrs only works for LoadStyle.ShowWhenLoading
   final Duration completeDuration;
 
-  const ClassicFooterV2({
+  const LoadMoreFooter({
     Key key,
     VoidCallback onClick,
     LoadStyle loadStyle: LoadStyle.ShowAlways,
@@ -56,7 +56,7 @@ class ClassicFooterV2 extends LoadIndicator {
   }
 }
 
-class _ClassicFooterState extends LoadIndicatorState<ClassicFooterV2> {
+class _ClassicFooterState extends LoadIndicatorState<LoadMoreFooter> {
   Widget _buildText(LoadStatus mode) {
     RefreshString strings =
         RefreshLocalizations.of(context)?.currentLocalization ??
