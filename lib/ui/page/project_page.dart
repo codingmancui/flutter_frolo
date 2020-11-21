@@ -41,15 +41,9 @@ class _ProjectPageState extends State<ProjectPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        toolbarHeight: 0,
         elevation: 0.0,
         brightness: Brightness.dark,
-        toolbarHeight: 42,
-        centerTitle: true,
-        title: Text(
-          '项目',
-          style: TextStyle(
-              fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
-        ),
       ),
       body: new StreamBuilder(
           stream: _bloc.tabTreeStream,
@@ -72,22 +66,23 @@ class _ProjectPageState extends State<ProjectPage>
             return new DefaultTabController(
                 length: snapshot.data == null ? 0 : snapshot.data.length,
                 child: new Column(children: <Widget>[
-                  Gaps.vGap5,
                   new Material(
                     color: Utils.createMaterialColor(Color(0xFFFAFAFA)),
                     elevation: 0.0,
                     child: new Container(
-                      height: 36.0,
+                      color: Utils.createMaterialColor(Color(0xFF8BC34A)),
+                      height: 48.0,
                       width: double.infinity,
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: new TabBar(
                         isScrollable: true,
                         indicatorSize: TabBarIndicatorSize.label,
+                        indicatorColor: Colors.white,
                         labelPadding: EdgeInsets.only(
                             top: 0, bottom: 0, left: 10, right: 10),
-                        // indicatorPadding: EdgeInsets.only(bottom: 10),
-                        labelColor: Colors.lightGreen,
-                        unselectedLabelColor: Color(0xFF4c4c4c),
+                        indicatorPadding: EdgeInsets.only(bottom: 6),
+                        labelColor: Colors.white,
+                        unselectedLabelColor: Color(0xFFF2F2F2),
                         unselectedLabelStyle: TextStyle(fontSize: 15),
                         labelStyle: new TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
@@ -98,10 +93,6 @@ class _ProjectPageState extends State<ProjectPage>
                             ?.toList(),
                       ),
                     ),
-                  ),
-                  new Container(
-                    color: Colors.grey[300],
-                    height: 0.5,
                   ),
                   new Expanded(child: new TabBarView(children: _children))
                 ]));

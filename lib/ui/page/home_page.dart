@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage>
                   }),
             )
           ],
-          toolbarHeight: 42,
+          toolbarHeight: 48,
           centerTitle: true,
           title: Text(
             '首页',
@@ -200,62 +200,6 @@ class _HomePageState extends State<HomePage>
             );
           }).toList(),
         ));
-  }
-
-  Widget buildRepos(BuildContext context, List<ArticleModel> list) {
-    if (ObjectUtil.isEmpty(list)) {
-      return new Container(height: 0.0);
-    }
-    List<Widget> _children = list.map((model) {
-      return new ReposItem(
-        model,
-        isHome: true,
-      );
-    }).toList();
-    List<Widget> children = new List();
-    children.add(new HeaderItem(
-      leftIcon: Icons.book,
-      titleId: 'rec_repos',
-      title: '推荐项目',
-      onTap: () {
-        // NavigatorUtil.pushTabPage(context,
-        //     labelId: Ids.titleReposTree, titleId: Ids.titleReposTree);
-      },
-    ));
-    children.addAll(_children);
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: children,
-    );
-  }
-
-  Widget buildWxArticle(BuildContext context, List<ArticleModel> list) {
-    if (ObjectUtil.isEmpty(list)) {
-      return new Container(height: 0.0);
-    }
-    List<Widget> _children = list.map((model) {
-      return new ArticleItem(
-        model,
-        isHome: true,
-      );
-    }).toList();
-    List<Widget> children = new List();
-    children.add(new HeaderItem(
-      titleColor: Colors.green,
-      leftIcon: Icons.library_books,
-      titleId: 'rec_wxarticle',
-      title: '推荐公众号',
-      onTap: () {
-        // NavigatorUtil.pushTabPage(context,
-        //     labelId: Ids.titleWxArticleTree, titleId: Ids.titleWxArticleTree);
-      },
-    ));
-    children.addAll(_children);
-    return new Column(
-      mainAxisSize: MainAxisSize.min,
-      children: children,
-    );
   }
 
   @override

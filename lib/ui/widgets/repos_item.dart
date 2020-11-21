@@ -42,7 +42,6 @@ class ReposItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF444444),
-                      fontWeight: FontWeight.bold,
                     )),
                 Gaps.vGap5,
                 new Expanded(

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:frolo/ui/page/main_page.dart';
 import 'package:frolo/ui/page/splash_page.dart';
@@ -10,11 +11,11 @@ import 'package:sp_util/sp_util.dart';
 
 import 'blocs/application_bloc.dart';
 import 'blocs/bloc_provider.dart';
-import 'blocs/main_bloc.dart';
 import 'data/common/common.dart';
 import 'data/net/dio_util.dart';
 
 void main() {
+  // debugPaintSizeEnabled = true;
   runApp(BlocProvider<ApplicationBloc>(
     bloc: ApplicationBloc(),
     child: MyApp(),

@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     _bottomNavPages
       ..add(BlocProvider(child: HomePage(), bloc: MainBloc()))
       ..add(BlocProvider(child: ProjectPage(), bloc: TabBloc()))
-      ..add(BlocProvider(child: SystemPage(), bloc: SystemBloc()))
+      ..add(SystemPage())
       ..add(MePage());
     super.initState();
   }

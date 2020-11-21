@@ -4,15 +4,10 @@ import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/project_list_item.dart';
 import 'package:frolo/ui/widgets/refresh_scaffold.dart';
-import 'package:frolo/ui/widgets/repos_item_v2.dart';
-import 'package:frolo/ui/widgets/loading/square_circle.dart';
-import 'package:frolo/ui/widgets/loading/refresh_header.dart';
 import 'package:frolo/utils/log_util.dart';
-import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'loading/load_more_footer.dart';
 
 class ProjectListWidget extends StatefulWidget {
   ProjectListWidget({Key key, this.cid}) : super(key: key);

@@ -59,8 +59,7 @@ class ProjectListItem extends StatelessWidget {
                         : model.author,
                     style: new TextStyle(
                         color: Color(0xff2d97fe),
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 13),
                   ),
                 ),
                 new Expanded(flex: 1, child: Container()),

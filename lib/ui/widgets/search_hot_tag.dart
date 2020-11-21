@@ -46,7 +46,7 @@ class SearchHotTagWidget extends StatelessWidget {
           height: 30,
           padding: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 0),
           decoration: BoxDecoration(
-              color: Colors.lime[700], borderRadius: BorderRadius.circular(15)),
+              color: Colors.lime[600], borderRadius: BorderRadius.circular(15)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
