@@ -13,6 +13,8 @@ class WanAndroidApi {
 
   /// 体系数据 http://www.wanandroid.com/tree/json
   static const String TREE = "tree";
+  /// 导航数据 https://www.wanandroid.com/navi/json
+  static const String NAVI = "navi";
 
   //https://www.wanandroid.com//hotkey/json
   static const String HOT_KEY = "hotkey";

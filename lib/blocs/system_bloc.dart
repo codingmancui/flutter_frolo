@@ -5,18 +5,28 @@ import 'package:rxdart/rxdart.dart';
 import 'bloc_provider.dart';
 
 class SystemBloc implements BlocBase {
-  BehaviorSubject<List<TreeModel>> _tabTree =
-      BehaviorSubject<List<TreeModel>>();
+  BehaviorSubject<List<SystemModel>> _tabTree =
+      BehaviorSubject<List<SystemModel>>();
 
-  Sink<List<TreeModel>> get _tabTreeSink => _tabTree.sink;
+  Sink<List<SystemModel>> get _tabTreeSink => _tabTree.sink;
 
-  Stream<List<TreeModel>> get tabTreeStream => _tabTree.stream;
+  Stream<List<SystemModel>> get tabTreeStream => _tabTree.stream;
+
+  BehaviorSubject<List<NaviModel>> _tabNavi =
+      BehaviorSubject<List<NaviModel>>();
+
+  Sink<List<NaviModel>> get _tabNaviSink => _tabNavi.sink;
+
+  Stream<List<NaviModel>> get tabNaviStream => _tabNavi.stream;
 
   WanRepository wanRepository = new WanRepository();
 
   @override
   Future getData({String labelId, int page}) {
-    return null;
+    if (labelId == '0') {
+      return getTreeData();
+    }
+    return getNaviData();
   }
 
   @override
@@ -29,17 +39,21 @@ class SystemBloc implements BlocBase {
     return null;
   }
 
-  Future getProjectTree() {
-    return wanRepository.getProjectTree().then((list) {
-      if (list.length > 6) {
-        list = list.sublist(0, 6);
-      }
-      _tabTreeSink.add(UnmodifiableListView<TreeModel>(list));
+  Future getTreeData() {
+    return wanRepository.getSystemList().then((list) {
+      _tabTreeSink.add(UnmodifiableListView<SystemModel>(list));
+    });
+  }
+
+  Future getNaviData() {
+    return wanRepository.getNaviList().then((list) {
+      _tabNaviSink.add(UnmodifiableListView<NaviModel>(list));
     });
   }
 
   @override
   void dispose() {
     _tabTree.close();
+    _tabNavi.close();
   }
 }

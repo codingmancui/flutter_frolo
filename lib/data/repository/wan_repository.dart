@@ -74,7 +74,8 @@ class WanRepository {
     return list;
   }
 
-  Future<List<ArticleModel>> getWxArticleList({int id, int page: 1, data}) async {
+  Future<List<ArticleModel>> getWxArticleList(
+      {int id, int page: 1, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(
             Method.get,
@@ -160,5 +161,35 @@ class WanRepository {
       }).toList();
     }
     return DataPagingModel.fromData(list, comData.pageCount, comData.curPage);
+  }
+
+  Future<List<SystemModel>> getSystemList() async {
+    BaseResp<List> baseResp = await DioUtil().request<List>(
+        Method.get, WanAndroidApi.getPath(path: WanAndroidApi.TREE));
+    List<SystemModel> list;
+    if (baseResp.code != Constant.status_success) {
+      return new Future.error(baseResp.msg);
+    }
+    if (baseResp.data != null) {
+      list = baseResp.data.map((value) {
+        return SystemModel.fromJson(value);
+      }).toList();
+    }
+    return list;
+  }
+
+  Future<List<NaviModel>> getNaviList() async {
+    BaseResp<List> baseResp = await DioUtil().request<List>(
+        Method.get, WanAndroidApi.getPath(path: WanAndroidApi.NAVI));
+    List<NaviModel> list;
+    if (baseResp.code != Constant.status_success) {
+      return new Future.error(baseResp.msg);
+    }
+    if (baseResp.data != null) {
+      list = baseResp.data.map((value) {
+        return NaviModel.fromJson(value);
+      }).toList();
+    }
+    return list;
   }
 }

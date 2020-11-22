@@ -6,18 +6,15 @@ import 'package:frolo/blocs/main_bloc.dart';
 import 'package:frolo/blocs/search_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/page/search_page.dart';
-import 'package:frolo/ui/widgets/article_item.dart';
-import 'package:frolo/ui/widgets/loading/load_more_footer.dart';
 import 'package:frolo/ui/widgets/header_item.dart';
 import 'package:frolo/ui/widgets/home_top_item.dart';
 import 'package:frolo/ui/widgets/number_swiper_indicator.dart';
 import 'package:frolo/ui/widgets/loading/pulse.dart';
-import 'package:frolo/ui/widgets/repos_item.dart';
-import 'package:frolo/ui/widgets/loading/square_circle.dart';
-import 'package:frolo/ui/widgets/loading/refresh_header.dart';
+import 'package:frolo/ui/widgets/refresh_scaffold.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/object_util.dart';
+import 'package:frolo/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
@@ -102,29 +99,20 @@ class _HomePageState extends State<HomePage>
     return StreamBuilder(
         stream: _bloc.allStream,
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (snapshot.hasData) {
-            return new SmartRefresher(
-                enablePullDown: true,
-                enablePullUp: true,
-                onRefresh: _onRefresh,
-                onLoading: _onLoadMore,
-                controller: _refreshController,
-                header: const RefreshHeader(),
-                footer: const LoadMoreFooter(),
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int position) {
-                    return itemBuilder(position, snapshot);
-                  },
-                  itemCount: snapshot.data == null ? 0 : snapshot.data.length,
-                ));
-          } else if (snapshot.hasError) {
-            return new Text('出错了');
-          } else {
-            return SpinKitSquareCircle(
-                size: 50,
-                color: Colors.lime,
-                duration: Duration(milliseconds: 500));
-          }
+          int status = Utils.getLoadStatus(snapshot.hasError, snapshot.data);
+          return RefreshScaffold(
+              loadingStatus: status,
+              controller: _refreshController,
+              enablePullDown: true,
+              enablePullUp: true,
+              onLoadMore: _onLoadMore,
+              onRefresh: _onRefresh,
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int position) {
+                  return itemBuilder(position, snapshot);
+                },
+                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+              ));
         });
   }
 
