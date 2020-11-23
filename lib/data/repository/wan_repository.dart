@@ -192,4 +192,23 @@ class WanRepository {
     }
     return list;
   }
+
+  Future<DataPagingModel> getSystemDetailList({int page: 1, data}) async {
+    BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
+        .request<Map<String, dynamic>>(Method.get,
+        WanAndroidApi.getPath(path: WanAndroidApi.ARTICLE_LIST, page: page),
+        data: data);
+    List<ArticleModel> list;
+    if (baseResp.code != Constant.status_success) {
+      return new Future.error(baseResp.msg);
+    }
+    ComData comData;
+    if (baseResp.data != null) {
+      comData = ComData.fromJson(baseResp.data);
+      list = comData.datas.map((value) {
+        return ArticleModel.fromJson(value);
+      }).toList();
+    }
+    return DataPagingModel.fromData(list, comData.pageCount, comData.curPage);
+  }
 }

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
-import 'package:frolo/blocs/system_bloc.dart';
 import 'package:frolo/blocs/system_detail_bloc.dart';
 import 'package:frolo/data/common/common.dart';
 import 'package:frolo/data/protocol/models.dart';
-import 'package:frolo/ui/widgets/navi_item.dart';
-import 'package:frolo/ui/widgets/system_item.dart';
+import 'package:frolo/ui/widgets/refresh_scaffold.dart';
+import 'package:frolo/ui/widgets/system_detail_item.dart';
 import 'package:frolo/utils/utils.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'loading/square_circle.dart';
 
 class SystemDetailTabWidget extends StatefulWidget {
   final int cid;
+  final String modelName;
 
-  const SystemDetailTabWidget(this.cid);
+  const SystemDetailTabWidget(this.cid, this.modelName);
 
   @override
   State<StatefulWidget> createState() => new _SystemTabWidgetState();
@@ -22,11 +23,33 @@ class SystemDetailTabWidget extends StatefulWidget {
 class _SystemTabWidgetState extends State<SystemDetailTabWidget>
     with AutomaticKeepAliveClientMixin {
   SystemDetailBloc _systemDetailBloc;
+  RefreshController _refreshController;
 
   @override
   void initState() {
+    _refreshController = RefreshController(initialRefresh: false);
     _systemDetailBloc = BlocProvider.of<SystemDetailBloc>(context);
-    _systemDetailBloc.getData(labelId: '1');
+    Future.delayed(new Duration(milliseconds: 500), () {
+      _systemDetailBloc.getData(page: 0, cid: widget.cid);
+    });
+    _systemDetailBloc.systemEventStream.listen((event) {
+      switch (event.status) {
+        case 0:
+          _refreshController.refreshCompleted(resetFooterState: true);
+          if (event.noMore) {
+            _refreshController.loadNoData();
+          }
+          break;
+        case 1:
+          _refreshController.loadComplete();
+          break;
+        case 2:
+          _refreshController.loadNoData();
+          break;
+        case -1:
+          break;
+      }
+    });
     super.initState();
   }
 
@@ -34,44 +57,38 @@ class _SystemTabWidgetState extends State<SystemDetailTabWidget>
   Widget build(BuildContext context) {
     super.build(context);
     return new StreamBuilder(
-        stream: _systemBloc.tabTreeStream,
+        stream: _systemDetailBloc.systemDetailStream,
         builder: (BuildContext context,
-            AsyncSnapshot<List<NaviModel>> asyncSnapshot) {
+            AsyncSnapshot<List<ArticleModel>> asyncSnapshot) {
           return buildSmartRefresher(asyncSnapshot);
         });
   }
 
-  Widget buildSmartRefresher(AsyncSnapshot<List<NaviModel>> asyncSnapshot) {
+  void _onRefresh() {
+    _systemDetailBloc.onRefresh(cid: widget.cid);
+  }
+
+  void _onLoadMore() {
+    _systemDetailBloc.onLoadMore(cid: widget.cid);
+  }
+
+  Widget buildSmartRefresher(AsyncSnapshot<List<ArticleModel>> asyncSnapshot) {
     int loadingStatus =
         Utils.getLoadStatus(asyncSnapshot.hasError, asyncSnapshot.data);
-    switch (loadingStatus) {
-      case LoadingStatus.fail:
-        return new Text('发生错误');
-        break;
-      case LoadingStatus.empty:
-        return new Text('暂无数据');
-        break;
-      case LoadingStatus.success:
-        return ListView.builder(
+    return new RefreshScaffold(
+        loadingStatus: loadingStatus,
+        controller: _refreshController,
+        enablePullUp: true,
+        enablePullDown: true,
+        onRefresh: _onRefresh,
+        onLoadMore: _onLoadMore,
+        child: ListView.builder(
           itemBuilder: ((BuildContext context, int index) {
-            return new NaviItem(asyncSnapshot.data[index]);
+            return new SystemDetailItem(
+                asyncSnapshot.data[index], widget.modelName);
           }),
           itemCount: asyncSnapshot.data == null ? 0 : asyncSnapshot.data.length,
-        );
-        break;
-      case LoadingStatus.loading:
-        return new SpinKitSquareCircle(
-            size: 35,
-            color: Colors.lime,
-            duration: Duration(milliseconds: 600));
-        break;
-      default:
-        return new Container(
-          width: 0,
-          height: 0,
-        );
-        break;
-    }
+        ));
   }
 
   @override

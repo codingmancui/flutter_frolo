@@ -110,6 +110,7 @@ class SearchBloc implements BlocBase {
           'getSearch list on success page  ${data.curPage}   ${data.pageCount}',
           tag: 'SearchBloc');
     }).catchError((e) {
+      _page--;
       eventSink.add(new StatusEvent(status: -1));
       LogUtil.v('getSearch list on error', tag: 'SearchBloc');
     });

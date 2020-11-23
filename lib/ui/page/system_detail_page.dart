@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frolo/blocs/bloc_provider.dart';
+import 'package:frolo/blocs/system_detail_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/back_button.dart';
+import 'package:frolo/ui/widgets/system_detail_tab_widget.dart';
 import 'package:frolo/utils/utils.dart';
 
 class SystemDetailPage extends StatelessWidget {
@@ -51,12 +54,13 @@ class SystemDetailPage extends StatelessWidget {
                             ?.toList(),
                       ),
                     )),
-                // new Expanded(
-                //     child: new TabBarView(children: <Widget>[
-                //   new BlocProvider(
-                //       child: SystemTabWidget(), bloc: SystemBloc()),
-                //   new BlocProvider(child: NaviTabWidget(), bloc: SystemBloc()),
-                // ]))
+                new Expanded(
+                    child: new TabBarView(
+                        children: model.children.map((item) {
+                  return new BlocProvider(
+                      child: SystemDetailTabWidget(item.id, item.name),
+                      bloc: SystemDetailBloc());
+                }).toList()))
               ])),
     );
   }
