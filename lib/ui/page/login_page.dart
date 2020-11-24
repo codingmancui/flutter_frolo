@@ -14,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final ValueNotifier<bool> _username = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _pwd = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _pwdVisible = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _clickenable = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -197,20 +198,24 @@ class _LoginPageState extends State<LoginPage> {
               Gaps.getVGap(80),
               new Container(
                 width: double.infinity,
-                height: 48,
+                height: 42,
                 margin: EdgeInsets.only(left: 50, right: 50),
-                child: new FlatButton(
-                  disabledColor: Color(0xFFC5E1A5),
-                  color: Colors.lightGreen,
-                  colorBrightness: Brightness.dark,
-                  child: new Text(
-                    "登录",
-                    style: TextStyle(color: Color(0xFFFFFFFF)),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0)),
-                  onPressed: () {},
-                ),
+                child: new ValueListenableBuilder(
+                    valueListenable: _clickenable,
+                    builder: (context, value, _) {
+                      return new FlatButton(
+                        disabledColor: Color(0xFFC5E1A5),
+                        color: Colors.lightGreen,
+                        colorBrightness: Brightness.dark,
+                        child: new Text(
+                          "登录",
+                          style: TextStyle(color: Color(0xFFFFFFFF)),
+                        ),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0)),
+                        onPressed: value ? () {} : null,
+                      );
+                    }),
               )
             ],
           )
