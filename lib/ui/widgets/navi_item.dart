@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
 
 class NaviItem extends StatelessWidget {
@@ -23,17 +24,19 @@ class NaviItem extends StatelessWidget {
           new Wrap(
             spacing: 20,
             runSpacing: 15,
-            children: buildTags(),
+            children: buildTags(context),
           )
         ],
       ),
     );
   }
 
-  List<Widget> buildTags() {
+  List<Widget> buildTags(BuildContext context) {
     return model.articles.map((e) {
       return new InkWell(
-        onTap: () {},
+        onTap: () {
+          NavigatorUtil.pushWeb(context, title: e.title, url: e.link);
+        },
         borderRadius: new BorderRadius.circular(12.0),
         child: new Container(
           padding: EdgeInsets.only(left: 12, top: 4, right: 12, bottom: 4),

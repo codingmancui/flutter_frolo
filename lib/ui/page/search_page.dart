@@ -29,12 +29,9 @@ class _SearchStateWidget extends State<SearchPage> {
     });
     _searchController.addListener(() {
       var length = _searchController.text.trim().length;
-      if (length > 0) {
-        _showClose.value = true;
-      } else {
-        _showClose.value = false;
-      }
+      _showClose.value = length > 0;
     });
+
     super.initState();
   }
 

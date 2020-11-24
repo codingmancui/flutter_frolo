@@ -19,6 +19,7 @@ class SystemDetailPage extends StatelessWidget {
         toolbarHeight: 48,
         elevation: 0,
         leading: BackButtonV2(color: Colors.white),
+        centerTitle: true,
         title: Text(
           model.name,
           style: TextStyle(

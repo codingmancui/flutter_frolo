@@ -10,7 +10,6 @@ import 'package:frolo/utils/utils.dart';
 import 'loading/square_circle.dart';
 
 class NaviTabWidget extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => new _SystemTabWidgetState();
 }

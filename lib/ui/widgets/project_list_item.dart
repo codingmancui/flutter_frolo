@@ -49,7 +49,7 @@ class ProjectListItem extends StatelessWidget {
                 Gaps.getHGap(isNew ? 5 : 0),
                 new Container(
                   padding:
-                      EdgeInsets.only(left: 10, top: 4, right: 10, bottom: 4),
+                      EdgeInsets.only(left: 5, top: 2, right: 5, bottom: 2),
                   decoration: BoxDecoration(
                       color: Color(0xFFecf6ff),
                       borderRadius: BorderRadius.circular(4)),
@@ -57,9 +57,8 @@ class ProjectListItem extends StatelessWidget {
                     ObjectUtil.isEmptyString(model.author)
                         ? model.shareUser
                         : model.author,
-                    style: new TextStyle(
-                        color: Color(0xff2d97fe),
-                        fontSize: 13),
+                    style:
+                        new TextStyle(color: Color(0xff2d97fe), fontSize: 13),
                   ),
                 ),
                 new Expanded(flex: 1, child: Container()),
