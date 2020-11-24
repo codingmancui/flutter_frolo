@@ -36,7 +36,7 @@ class SystemItem extends StatelessWidget {
     return model.children.map((e) {
       return new InkWell(
         onTap: () {
-          NavigatorUtil.pushPage(context, new SystemDetailPage(model));
+          NavigatorUtil.pushPage(context, new SystemDetailPage(model,model.children.indexOf(e)));
         },
         borderRadius: new BorderRadius.circular(12.0),
         child: new Container(

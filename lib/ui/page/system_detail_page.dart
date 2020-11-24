@@ -8,8 +8,9 @@ import 'package:frolo/utils/utils.dart';
 
 class SystemDetailPage extends StatelessWidget {
   final SystemModel model;
+  final int index;
 
-  const SystemDetailPage(this.model);
+  const SystemDetailPage(this.model,this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class SystemDetailPage extends StatelessWidget {
         ),
       ),
       body: new DefaultTabController(
-          initialIndex: 0,
+          initialIndex: index,
           length: model.children.length,
           child: new Column(
               crossAxisAlignment: CrossAxisAlignment.center,
