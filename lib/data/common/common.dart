@@ -1,20 +1,20 @@
 import 'package:flutter/foundation.dart';
 
 class Constant {
-  static const String keyLanguage = 'key_language';
-
   static const int status_success = 0;
 
   static const String server_address = wan_android;
 
   static const String wan_android = "https://www.wanandroid.com/";
 
-  static const int type_sys_update = 1;
-  static const int type_refresh_all = 5;
+  static const int type_login_success = 10000;
 
   static const String key_theme_color = 'key_theme_color';
   static const String key_guide = 'key_guide';
   static const String key_splash_model = 'key_splash_models';
+  static const String keyUserModel = 'user_model';
+  static const String keyAppToken = 'app_token';
+  static const String keyUserCoinModel = 'user_coin_model';
 }
 
 class AppConfig {

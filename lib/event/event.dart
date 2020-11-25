@@ -21,8 +21,6 @@ class ComEvent {
 }
 
 class Event {
-  static void sendAppComEvent(BuildContext context, ComEvent event) {}
-
   static void sendAppEvent(BuildContext context, int id) {
     BlocProvider.of<ApplicationBloc>(context).sendAppEvent(id);
   }

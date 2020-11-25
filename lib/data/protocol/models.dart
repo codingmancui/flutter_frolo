@@ -425,3 +425,129 @@ class NaviModel {
     return data;
   }
 }
+
+class LoginParam {
+  String username;
+  String password;
+
+  LoginParam(this.username, this.password);
+
+  LoginParam.fromJson(Map<String, dynamic> json)
+      : username = json['username'],
+        password = json['password'];
+
+  Map<String, dynamic> toJson() => {
+        'username': username,
+        'password': password,
+      };
+
+  @override
+  String toString() {
+    return '{' +
+        " \"username\":\"" +
+        username +
+        "\"" +
+        ", \"password\":\"" +
+        password +
+        "\"" +
+        '}';
+  }
+}
+
+class RegisterParam {
+  String username;
+  String password;
+  String repassword;
+
+  RegisterParam(this.username, this.password, this.repassword);
+
+  RegisterParam.fromJson(Map<String, dynamic> json)
+      : username = json['username'],
+        password = json['password'],
+        repassword = json['repassword'];
+
+  Map<String, dynamic> toJson() => {
+        'username': username,
+        'password': password,
+        'repassword': repassword,
+      };
+
+  @override
+  String toString() {
+    return '{' +
+        " \"username\":\"" +
+        username +
+        "\"" +
+        ", \"password\":\"" +
+        password +
+        "\"" +
+        ", \"repassword\":\"" +
+        repassword +
+        "\"" +
+        '}';
+  }
+}
+
+class UserModel {
+  String email;
+  String icon;
+  int id;
+  String username;
+  String password;
+
+  UserModel.fromJson(Map<String, dynamic> json)
+      : email = json['email'],
+        icon = json['icon'],
+        id = json['id'],
+        username = json['username'],
+        password = json['password'];
+
+  Map<String, dynamic> toJson() => {
+        'email': email,
+        'icon': icon,
+        'id': id,
+        'username': username,
+        'password': password,
+      };
+
+  @override
+  String toString() {
+    StringBuffer sb = new StringBuffer('{');
+    sb.write("\"email\":\"$email\"");
+    sb.write(",\"icon\":\"$icon\"");
+    sb.write(",\"id\":$id");
+    sb.write(",\"username\":\"$username\"");
+    sb.write(",\"password\":\"$password\"");
+    sb.write('}');
+    return sb.toString();
+  }
+}
+
+class UserCoinModel {
+  int coinCount = 0;
+  int level = 0;
+  String rank = '0';
+  int userId = 0;
+  String username = '';
+
+  UserCoinModel(
+      {this.coinCount, this.level, this.rank, this.userId, this.username});
+
+  UserCoinModel.fromJson(Map<String, dynamic> json) {
+    coinCount = json['coinCount'];
+    level = json['level'];
+    rank = json['rank'];
+    userId = json['userId'];
+    username = json['username'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['coinCount'] = this.coinCount;
+    data['level'] = this.level;
+    data['rank'] = this.rank;
+    data['userId'] = this.userId;
+    data['username'] = this.username;
+    return data;
+  }
+}

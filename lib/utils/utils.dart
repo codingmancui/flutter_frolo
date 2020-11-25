@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frolo/data/common/common.dart';
 import 'package:frolo/utils/timeline_util.dart';
+import 'package:sp_util/sp_util.dart';
+
+import 'object_util.dart';
 
 class Utils {
   static String getImgPath(String name, {String format: 'png'}) {
@@ -49,5 +52,8 @@ class Utils {
     } else {
       return LoadingStatus.success;
     }
+  }
+  static bool isLogin() {
+    return ObjectUtil.isNotEmpty(SpUtil.getString(Constant.keyAppToken));
   }
 }

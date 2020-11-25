@@ -3,7 +3,6 @@ import 'package:frolo/data/common/common.dart';
 import 'package:frolo/data/net/dio_util.dart';
 import 'package:frolo/data/protocol/base_resp.dart';
 import 'package:frolo/data/protocol/models.dart';
-import 'package:frolo/ui/widgets/search_hot_tag.dart';
 
 class WanRepository {
   Future<List<BannerModel>> getBanner() async {

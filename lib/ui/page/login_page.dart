@@ -1,7 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frolo/data/common/common.dart';
+import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/data/repository/user_repository.dart';
+import 'package:frolo/event/event.dart';
+import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
 import 'package:frolo/utils/utils.dart';
+import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,19 +19,53 @@ class _LoginPageState extends State<LoginPage> {
   final ValueNotifier<bool> _username = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _pwd = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _pwdVisible = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _clickenable = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _clickable = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     _usernameController.addListener(() {
       var length = _usernameController.text.trim().length;
+      var pwdLength = _passwordController.text.trim().length;
       _username.value = length > 0;
+      if (length > 0 && pwdLength > 0) {
+        _clickable.value = true;
+      }
+      if (length == 0 || pwdLength == 0) {
+        _clickable.value = false;
+      }
     });
     _passwordController.addListener(() {
       var length = _passwordController.text.trim().length;
+      var nameLength = _usernameController.text.trim().length;
       _pwd.value = length > 0;
+      if (length > 0 && nameLength > 0) {
+        _clickable.value = true;
+      }
+      if (length == 0 || nameLength == 0) {
+        _clickable.value = false;
+      }
     });
     super.initState();
+  }
+
+  void _userLogin() {
+    UserRepository userRepository = new UserRepository();
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+    LoginParam param = new LoginParam(username, password);
+    userRepository.login(param).then((UserModel model) {
+      LogUtil.e("LoginResp: ${model.toString()}");
+      Toast.show("登录成功～", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Event.sendAppEvent(context, Constant.type_login_success);
+
+      Future.delayed(new Duration(milliseconds: 500), () {
+        Navigator.pop(context);
+      });
+    }).catchError((error) {
+      Toast.show("${error.toString()}～", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    });
   }
 
   @override
@@ -201,7 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 42,
                 margin: EdgeInsets.only(left: 50, right: 50),
                 child: new ValueListenableBuilder(
-                    valueListenable: _clickenable,
+                    valueListenable: _clickable,
                     builder: (context, value, _) {
                       return new FlatButton(
                         disabledColor: Color(0xFFC5E1A5),
@@ -213,7 +252,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         shape: new RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6.0)),
-                        onPressed: value ? () {} : null,
+                        onPressed: value
+                            ? () {
+                                _userLogin();
+                              }
+                            : null,
                       );
                     }),
               )

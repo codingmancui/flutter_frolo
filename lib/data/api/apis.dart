@@ -40,6 +40,7 @@ class WanAndroidApi {
   static const String user_login = "user/login"; //登录
   static const String user_logout = "user/logout"; //退出
 
+  static const String lg_coin_userinfo = "lg/coin/userinfo"; //个人积分
   static const String lg_collect_list = "lg/collect/list"; //收藏文章列表
   static const String lg_collect = "lg/collect"; //收藏站内文章
   static const String lg_uncollect_originid = "lg/uncollect_originId"; //取消收藏

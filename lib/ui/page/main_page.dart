@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/main_bloc.dart';
+import 'package:frolo/blocs/me_bloc.dart';
 import 'package:frolo/blocs/tab_bloc.dart';
 import 'package:frolo/ui/page/home_page.dart';
 import 'package:frolo/ui/page/me_page.dart';
@@ -24,7 +25,7 @@ class _MainPageState extends State<MainPage> {
       ..add(BlocProvider(child: HomePage(), bloc: MainBloc()))
       ..add(BlocProvider(child: ProjectPage(), bloc: TabBloc()))
       ..add(SystemPage())
-      ..add(MePage());
+      ..add(BlocProvider(child: MePage(), bloc: MeBloc()));
     super.initState();
   }
 

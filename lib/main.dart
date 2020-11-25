@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:frolo/data/common/global.dart';
 import 'package:frolo/ui/page/main_page.dart';
 import 'package:frolo/ui/page/splash_page.dart';
 import 'package:frolo/utils/log_util.dart';
@@ -15,20 +16,13 @@ import 'data/common/common.dart';
 import 'data/net/dio_util.dart';
 
 void main() {
-  // debugPaintSizeEnabled = true;
-  runApp(BlocProvider<ApplicationBloc>(
-    bloc: ApplicationBloc(),
-    child: MyApp(),
-  ));
-
-  SystemUiOverlayStyle style = SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-
-      ///这是设置状态栏的图标和字体的颜色
-      ///Brightness.light  一般都是显示为白色
-      ///Brightness.dark 一般都是显示为黑色
-      statusBarIconBrightness: Brightness.light);
-  SystemChrome.setSystemUIOverlayStyle(style);
+  debugPaintSizeEnabled = false;
+  Global.init(() {
+    runApp(BlocProvider<ApplicationBloc>(
+      bloc: ApplicationBloc(),
+      child: MyApp(),
+    ));
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -68,15 +62,15 @@ class MyAppState extends State<MyApp> {
     }
     Options options = DioUtil.getDefOptions();
     options.baseUrl = Constant.server_address;
-    String cookie = 'app_token';
+    String cookie = SpUtil.getString(Constant.keyAppToken);
     if (ObjectUtil.isNotEmpty(cookie)) {
       Map<String, dynamic> _headers = new Map();
       _headers["Cookie"] = cookie;
       options.headers = _headers;
     }
+    LogUtil.v('Cookie is $cookie');
     HttpConfig config = new HttpConfig(options: options);
     DioUtil().setConfig(config);
-    SpUtil.getInstance();
   }
 
   void init() {

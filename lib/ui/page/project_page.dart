@@ -5,7 +5,6 @@ import 'package:frolo/blocs/tab_list_bloc.dart';
 import 'package:frolo/data/protocol/models.dart';
 import 'package:frolo/ui/widgets/project_item_list.dart';
 import 'package:frolo/ui/widgets/loading/square_circle.dart';
-import 'package:frolo/utils/ui_gaps.dart';
 import 'package:frolo/utils/utils.dart';
 
 class ProjectPage extends StatefulWidget {
