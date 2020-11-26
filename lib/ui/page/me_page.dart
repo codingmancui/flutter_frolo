@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frolo/blocs/application_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:frolo/blocs/me_bloc.dart';
 import 'package:frolo/data/common/common.dart';
 import 'package:frolo/provider/user_info_provider.dart';
 import 'package:frolo/ui/page/login_page.dart';
+import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
@@ -59,17 +61,32 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 return new Row(children: <Widget>[
                   new Container(
                     margin: EdgeInsets.only(left: 30, right: 20),
-                    child: CircleAvatar(
-                      //头像半径
-                      radius: 38,
-                      //头像图片 -> NetworkImage网络图片，AssetImage项目资源包图片, FileImage本地存储图片
-                      backgroundImage: NetworkImage(
-                          'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg'),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(64),
+                      child: new CachedNetworkImage(
+                        width: 64,
+                        height: 64,
+                        fit: BoxFit.fill,
+                        imageUrl:
+                            'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg',
+                        placeholder: (BuildContext context, String url) {
+                          return new SpinKitPulse(color: Colors.lightGreen);
+                        },
+                        errorWidget:
+                            (BuildContext context, String url, Object error) {
+                          return new Icon(
+                            Icons.error,
+                            color: Colors.lightGreen,
+                          );
+                        },
+                      ),
                     ),
                   ),
                   new InkWell(
                     onTap: () {
-                      NavigatorUtil.pushPage(context, new LoginPage());
+                      if (!Utils.isLogin()) {
+                        NavigatorUtil.pushPage(context, new LoginPage());
+                      }
                     },
                     child: new Text(
                       name == null ? '去登录' : name,
@@ -150,7 +167,7 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8)),
-                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                margin: EdgeInsets.only(top: 20),
                 child: new Row(
                   children: <Widget>[
                     new Expanded(
@@ -222,6 +239,88 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                       ),
                     )),
                   ],
+                ),
+              ),
+              Gaps.getVGap(35),
+              new InkWell(
+                onTap: () {},
+                child: new Container(
+                  padding: EdgeInsets.only(left: 40, right: 20),
+                  width: double.infinity,
+                  height: 48,
+                  color: Colors.white,
+                  child: new Row(
+                    children: <Widget>[
+                      Text('常用网站'),
+                      new Expanded(child: new Container()),
+                      new Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              new InkWell(
+                onTap: () {},
+                child: new Container(
+                  padding: EdgeInsets.only(left: 40, right: 20),
+                  width: double.infinity,
+                  height: 48,
+                  color: Colors.white,
+                  child: new Row(
+                    children: <Widget>[
+                      Text('本站问答'),
+                      new Expanded(child: new Container()),
+                      new Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              new InkWell(
+                onTap: () {},
+                child: new Container(
+                  padding: EdgeInsets.only(left: 40, right: 20),
+                  width: double.infinity,
+                  height: 48,
+                  color: Colors.white,
+                  child: new Row(
+                    children: <Widget>[
+                      Text('我要反馈'),
+                      new Expanded(child: new Container()),
+                      new Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              Gaps.vGap10,
+              new InkWell(
+                onTap: () {},
+                child: new Container(
+                  padding: EdgeInsets.only(left: 40, right: 20),
+                  width: double.infinity,
+                  height: 48,
+                  color: Colors.white,
+                  child: new Row(
+                    children: <Widget>[
+                      Text('关于作者'),
+                      new Expanded(child: new Container()),
+                      new Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
+                ),
+              ),
+              new InkWell(
+                onTap: () {},
+                child: new Container(
+                  padding: EdgeInsets.only(left: 40, right: 20),
+                  width: double.infinity,
+                  height: 48,
+                  color: Colors.white,
+                  child: new Row(
+                    children: <Widget>[
+                      Text('系统设置'),
+                      new Expanded(child: new Container()),
+                      new Icon(Icons.keyboard_arrow_right)
+                    ],
+                  ),
                 ),
               ),
             ],
