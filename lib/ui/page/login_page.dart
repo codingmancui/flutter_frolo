@@ -16,25 +16,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation opacityLogin;
-  Animation opacityRegister;
+  bool _showFirst = true;
 
   @override
   void initState() {
-    controller = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
-
-    opacityLogin = Tween<double>(begin: 1, end: 0).animate(CurvedAnimation(
-        parent: controller, curve: Interval(0.0, 0.5, curve: Curves.linear)))
-      ..addListener(() {
-        setState(() {});
-      });
-    opacityRegister = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-        parent: controller, curve: Interval(0.5, 1, curve: Curves.linear)))
-      ..addListener(() {
-        setState(() {});
-      });
     super.initState();
   }
 
@@ -58,7 +43,6 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
@@ -94,23 +78,22 @@ class _LoginPageState extends State<LoginPage>
               ],
             ),
           ),
-          new Stack(
-            children: <Widget>[
-              new Opacity(
-                opacity: opacityLogin.value == null ? 1 : opacityLogin.value,
-                child: new LoginWidget((username, password) {
-                  _userLogin(username, password);
-                }, () {
-                  controller.forward();
-                }),
-              ),
-              new Opacity(
-                opacity:
-                    opacityRegister.value == null ? 0 : opacityRegister.value,
-                child: RegisterWidget((username, password, repassword) {}),
-              )
-            ],
-          )
+          AnimatedCrossFade(
+            duration: Duration(
+              milliseconds: 1000,
+            ),
+            crossFadeState: _showFirst
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            firstChild: new LoginWidget((username, password) {
+              _userLogin(username, password);
+            }, () {
+              setState(() {
+                _showFirst = !_showFirst;
+              });
+            }),
+            secondChild: RegisterWidget((username, password, repassword) {}),
+          ),
         ],
       ),
     );
