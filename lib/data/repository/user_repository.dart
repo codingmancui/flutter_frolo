@@ -18,9 +18,7 @@ class UserRepository {
       if (name == "set-cookie") {
         String cookie = values.toString();
         SpUtil.putString(Constant.keyAppToken, cookie).then((value) {
-          LogUtil.e("set-cookie: " +
-              cookie +
-              "Cookie save $value");
+          LogUtil.e("set-cookie: " + cookie + "Cookie save $value");
         });
         DioUtil().setCookie(cookie);
       }
@@ -38,6 +36,27 @@ class UserRepository {
       return Future.error(baseResp.msg);
     }
     UserCoinModel model = UserCoinModel.fromJson(baseResp.data);
+    return model;
+  }
+
+  Future<UserModel> register(RegisterParam req) async {
+    BaseRespR<Map<String, dynamic>> baseResp = await DioUtil()
+        .requestR<Map<String, dynamic>>(
+            Method.post, WanAndroidApi.user_register,
+            data: req.toJson());
+    if (baseResp.code != Constant.status_success) {
+      return Future.error(baseResp.msg);
+    }
+    baseResp.response.headers.forEach((String name, List<String> values) {
+      if (name == "set-cookie") {
+        String cookie = values.toString();
+        LogUtil.e("set-cookie: " + cookie);
+        SpUtil.putString(Constant.keyAppToken, cookie);
+        DioUtil().setCookie(cookie);
+      }
+    });
+    UserModel model = UserModel.fromJson(baseResp.data);
+    SpUtil.putObject(Constant.keyUserModel, model);
     return model;
   }
 }

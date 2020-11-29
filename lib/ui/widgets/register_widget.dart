@@ -252,7 +252,14 @@ class _RegisterWidgetState extends State<RegisterWidget>
                   ),
                   shape: new RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.0)),
-                  onPressed: value ? () {} : null,
+                  onPressed: value
+                      ? () {
+                          widget._register(
+                              _usernameController.text.trim(),
+                              _passwordController.text.trim(),
+                              _repasswordController.text.trim());
+                        }
+                      : null,
                 );
               }),
         )

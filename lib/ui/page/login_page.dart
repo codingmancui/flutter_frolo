@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   bool _showFirst = true;
+  UserRepository _userRepository = new UserRepository();
 
   @override
   void initState() {
@@ -24,10 +25,31 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _userLogin(String userName, String password) {
-    UserRepository userRepository = new UserRepository();
     LoginParam param = new LoginParam(userName, password);
-    userRepository.login(param).then((UserModel model) {
+    _userRepository.login(param).then((UserModel model) {
       LogUtil.e("LoginResp: ${model.toString()}");
+      Toast.show("登录成功～", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Event.sendAppEvent(context, Constant.type_login_success);
+
+      Future.delayed(new Duration(milliseconds: 500), () {
+        Navigator.pop(context);
+      });
+    }).catchError((error) {
+      Toast.show("${error.toString()}～", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    });
+  }
+
+  void _register(String userName, String password, String repassword) {
+    if (password != repassword) {
+      Toast.show("密码输入不一致～", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      return;
+    }
+    RegisterParam param = new RegisterParam(userName, password, repassword);
+    _userRepository.register(param).then((UserModel model) {
+      LogUtil.e("RegisterResp: ${model.toString()}");
       Toast.show("登录成功～", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       Event.sendAppEvent(context, Constant.type_login_success);
@@ -92,7 +114,9 @@ class _LoginPageState extends State<LoginPage>
                 _showFirst = !_showFirst;
               });
             }),
-            secondChild: RegisterWidget((username, password, repassword) {}),
+            secondChild: RegisterWidget((username, password, repassword) {
+              _register(username, password, repassword);
+            }),
           ),
         ],
       ),
