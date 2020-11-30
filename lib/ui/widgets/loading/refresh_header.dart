@@ -36,7 +36,7 @@ class RefreshHeader extends RefreshIndicator {
     this.complete,
     Duration completeDuration: const Duration(milliseconds: 600),
     this.failed,
-    this.waterDropColor: Colors.green,
+    this.waterDropColor: Colors.lightGreen,
     this.idleIcon: const Icon(
       Icons.autorenew,
       size: 15,
@@ -99,7 +99,7 @@ class _WaterDropHeaderState extends RefreshIndicatorState<RefreshHeader>
           SizedBox(
             width: 40.0,
             height: 40.0,
-            child: new SpinKitDoubleBounce(color: Colors.green),
+            child: new SpinKitDoubleBounce(color: Colors.lightGreen),
           );
     }
     /*else if (mode == RefreshStatus.completed) {

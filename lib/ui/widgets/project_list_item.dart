@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/ui/widgets/collect_widget.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
@@ -58,7 +57,7 @@ class ProjectListItem extends StatelessWidget {
                         ? model.shareUser
                         : model.author,
                     style:
-                        new TextStyle(color: Color(0xff2d97fe), fontSize: 13),
+                        new TextStyle(color: Color(0xB32d97fe), fontSize: 13),
                   ),
                 ),
                 new Expanded(flex: 1, child: Container()),
@@ -131,23 +130,7 @@ class ProjectListItem extends StatelessWidget {
                       fontSize: 10,
                     )),
                 new Expanded(flex: 1, child: new Container()),
-                new Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.thumb_up_rounded,
-                      size: 14,
-                      color: Colors.lightGreen,
-                    ),
-                    Gaps.hGap5,
-                    new Text(Random().nextInt(100).toString(),
-                        textAlign: TextAlign.center,
-                        style: new TextStyle(
-                            fontSize: 12, color: Color(0xFF999999))),
-                    Gaps.hGap10,
-                  ],
-                ),
+                new CollectWidget(model),
                 Gaps.hGap10
               ],
             )

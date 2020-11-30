@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/ui/widgets/collect_widget.dart';
+import 'package:frolo/ui/page/login_page.dart';
+import 'package:frolo/utils/collect_utils.dart';
+import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
+import 'package:frolo/utils/utils.dart';
 
 class HomeTopItem extends StatelessWidget {
   final int position;
   final ArticleModel model;
 
-  const HomeTopItem(this.position, this.model);
+  HomeTopItem(this.position, this.model);
 
   @override
   Widget build(BuildContext context) {
+    LogUtil.v('HomeTopItem build');
+
     bool isNew = DateTime.now().millisecondsSinceEpoch - model.publishTime <
         24 * 60 * 60 * 1000;
     return new InkWell(
@@ -48,9 +55,9 @@ class HomeTopItem extends StatelessWidget {
                       : model.author,
                   style: new TextStyle(color: Color(0xFF666666), fontSize: 12),
                 ),
-                buildTag(0),
+                buildTag(0, model),
                 model.tags.isNotEmpty && model.tags.length > 1
-                    ? buildTag(1)
+                    ? buildTag(1, model)
                     : new Container(
                         width: 0,
                         height: 0,
@@ -91,7 +98,7 @@ class HomeTopItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                buildTopTagContainer(),
+                buildTopTagContainer(model),
                 Gaps.getHGap(model.isHotTag ? 0 : 10),
                 new Text('${model.superChapterName} - ${model.chapterName}',
                     textAlign: TextAlign.center,
@@ -100,24 +107,7 @@ class HomeTopItem extends StatelessWidget {
                       fontSize: 10,
                     )),
                 new Expanded(flex: 1, child: new Container()),
-                new Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    new Icon(
-                      Icons.favorite_border,
-                      color: Colors.red,
-                      size: 16,
-                    ),
-                    Gaps.hGap5,
-                    new Text(
-                      model.zan.toString(),
-                      style: new TextStyle(
-                        color: Colors.grey[500],
-                        fontSize: 12,
-                      ),
-                    )
-                  ],
-                ),
+                new CollectWidget(model),
                 Gaps.hGap10
               ],
             )
@@ -127,7 +117,7 @@ class HomeTopItem extends StatelessWidget {
     );
   }
 
-  Container buildTopTagContainer() {
+  Container buildTopTagContainer(ArticleModel model) {
     if (model.isHotTag) {
       return new Container(
         width: 0,
@@ -148,7 +138,7 @@ class HomeTopItem extends StatelessWidget {
     );
   }
 
-  Container buildTag(int index) {
+  Container buildTag(int index, ArticleModel model) {
     return model.tags.isNotEmpty
         ? new Container(
             margin: EdgeInsets.only(left: 10),
