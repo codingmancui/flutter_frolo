@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'back_button.dart';
+import 'dart:io';
+
+import 'loading/square_circle.dart';
 
 class WebScaffold extends StatefulWidget {
   const WebScaffold({
@@ -21,6 +24,15 @@ class WebScaffold extends StatefulWidget {
 }
 
 class WebScaffoldState extends State<WebScaffold> {
+  ValueNotifier<bool> _loading = new ValueNotifier(true);
+
+  @override
+  void initState() {
+    // Enable hybrid composition.
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -36,11 +48,34 @@ class WebScaffoldState extends State<WebScaffold> {
           ),
         ),
         centerTitle: true,
+        elevation: 0,
+        brightness: Brightness.dark,
       ),
-      body: new WebView(
-        onWebViewCreated: (WebViewController webViewController) {},
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,
+      body: new Stack(
+        children: <Widget>[
+          new WebView(
+            onWebViewCreated: (WebViewController webViewController) {},
+            initialUrl: widget.url,
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageFinished: (url) {
+              _loading.value = false;
+            },
+          ),
+          new ValueListenableBuilder<bool>(
+              valueListenable: _loading,
+              builder: (context, value, _) {
+                return new Offstage(
+                  offstage: !value,
+                  child: new Container(
+                    color: Colors.white,
+                    child: new SpinKitSquareCircle(
+                        size: 35,
+                        color: Colors.lime,
+                        duration: Duration(milliseconds: 600)),
+                  ),
+                );
+              })
+        ],
       ),
     );
   }
