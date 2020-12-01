@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/ui/widgets/collect_widget.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
@@ -91,11 +92,7 @@ class SearchItem extends StatelessWidget {
                       fontSize: 10,
                     )),
                 new Expanded(flex: 1, child: new Container()),
-                new Icon(
-                  Icons.favorite_border,
-                  color: Colors.red,
-                  size: 16,
-                ),
+                new CollectWidget(model),
                 Gaps.hGap10
               ],
             )

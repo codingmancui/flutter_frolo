@@ -42,19 +42,21 @@ class SearchBloc implements BlocBase {
   String _key = '';
   List<ArticleModel> _listData = new List();
 
-  Future getNetHotTag() {
-    return _wanRepository.getSearchHotTag().then((list) {
-      LogUtil.v('getHotTag list size ${list.length}', tag: 'SearchBloc');
-      netTagsSink.add(UnmodifiableListView<SearchTagModel>(list));
+  void _getTagDatas() {
+    Future.wait([_wanRepository.getSearchHotTag(), getLocalHotTag()])
+        .then((datas) {
+      netTagsSink.add(UnmodifiableListView<SearchTagModel>(
+          datas.first as List<SearchTagModel>));
+      localTagsSink
+          .add(UnmodifiableListView<String>(datas.last as List<String>));
     }).catchError((e) {
       LogUtil.v('getHotTag list on error', tag: 'SearchBloc');
     });
   }
 
-  Future getLocalHotTag() async {
+  Future<List<String>> getLocalHotTag() async {
     _localTags = SpUtil.getStringList(LOCAL_HOT_TAG);
-    localTagsSink.add(UnmodifiableListView<String>(_localTags));
-    LogUtil.v('getLocalHotTag values is  $_localTags', tag: 'SearchBloc');
+    return _localTags;
   }
 
   void saveLocalTag(String key) async {
@@ -126,8 +128,7 @@ class SearchBloc implements BlocBase {
 
   @override
   Future getData({String labelId, int page}) async {
-    getLocalHotTag();
-    return getNetHotTag();
+    return _getTagDatas();
   }
 
   @override

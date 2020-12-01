@@ -96,7 +96,7 @@ class _SearchStateWidget extends State<SearchPage> {
               }, () {
                 _doClear();
               }, _searchBloc),
-              ValueListenableBuilder<bool>(
+              new ValueListenableBuilder<bool>(
                   valueListenable: _inSearchMode,
                   builder: (context, value, _) {
                     return value
