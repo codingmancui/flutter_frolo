@@ -23,6 +23,19 @@ class _SearchTagBodyWidgetState extends State<SearchTagBodyWidget> {
   ValueNotifier<bool> _loading = new ValueNotifier(true);
 
   @override
+  void initState() {
+    widget._searchBloc.setCallback((success) {
+      if (success) {
+        Future.delayed(new Duration(milliseconds: 100)).then((value) {
+          _loading.value = false;
+        });
+      }
+    });
+    super.initState();
+  }
+
+
+  @override
   Widget build(BuildContext context) => buildTagsBody();
 
   Widget buildTagsBody() {
@@ -41,7 +54,6 @@ class _SearchTagBodyWidgetState extends State<SearchTagBodyWidget> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<dynamic>> snapshot) {
                     if (snapshot.hasData) {
-                      _loading.value = false;
                       return new Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,

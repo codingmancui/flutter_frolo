@@ -9,6 +9,8 @@ import 'package:frolo/utils/object_util.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sp_util/sp_util.dart';
 
+typedef FetchSuccess = void Function(bool success);
+
 class SearchBloc implements BlocBase {
   static const String LOCAL_HOT_TAG = 'local_hot_tag';
   WanRepository _wanRepository = new WanRepository();
@@ -41,6 +43,11 @@ class SearchBloc implements BlocBase {
   int _page = 0;
   String _key = '';
   List<ArticleModel> _listData = new List();
+  FetchSuccess _callback;
+
+  void setCallback(FetchSuccess callback) {
+    this._callback = callback;
+  }
 
   void _getTagDatas() {
     Future.wait([_wanRepository.getSearchHotTag(), getLocalHotTag()])
@@ -49,6 +56,7 @@ class SearchBloc implements BlocBase {
           datas.first as List<SearchTagModel>));
       localTagsSink
           .add(UnmodifiableListView<String>(datas.last as List<String>));
+      _callback(true);
     }).catchError((e) {
       LogUtil.v('getHotTag list on error', tag: 'SearchBloc');
     });
@@ -69,7 +77,7 @@ class SearchBloc implements BlocBase {
     _localTags.insert(0, key);
     SpUtil.putStringList(LOCAL_HOT_TAG, _localTags).then((value) {
       if (value) {
-        // localTagsSink.add(UnmodifiableListView<String>(_localTags));
+        localTagsSink.add(UnmodifiableListView<String>(_localTags));
       }
     });
   }
@@ -124,6 +132,7 @@ class SearchBloc implements BlocBase {
     _localTagsSubject.close();
     _searchSubject.close();
     _event.close();
+    _callback = null;
   }
 
   @override

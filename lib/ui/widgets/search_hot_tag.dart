@@ -43,7 +43,7 @@ class SearchHotTagWidget extends StatelessWidget {
         keyWordCallback(name);
       },
       child: new Container(
-          height: 30,
+          height: 27,
           padding: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 0),
           decoration: BoxDecoration(
               color: Colors.lime[600], borderRadius: BorderRadius.circular(15)),

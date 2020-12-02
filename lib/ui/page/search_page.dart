@@ -75,12 +75,12 @@ class _SearchStateWidget extends State<SearchPage> {
             actions: <Widget>[
               new Container(
                 margin: EdgeInsets.only(right: 10),
-                child: new IconButton(
-                    icon: new Icon(
+                child: new InkWell(
+                    child: new Icon(
                       Icons.search_rounded,
                       color: Colors.white,
                     ),
-                    onPressed: () {
+                    onTap: () {
                       _doSearch(key: _searchController.text);
                       LogUtil.v('on home search click', tag: 'SearchPage');
                     }),
@@ -102,9 +102,9 @@ class _SearchStateWidget extends State<SearchPage> {
                     return value
                         ? new SearchResultWidget(_searchBloc)
                         : new Container(
-                      width: 0,
-                      height: 0,
-                    );
+                            width: 0,
+                            height: 0,
+                          );
                   }),
             ],
           ),
@@ -130,32 +130,31 @@ class _SearchStateWidget extends State<SearchPage> {
 
   Widget buildSearchTitle() {
     return new Container(
-      padding: EdgeInsets.only(left: 10,right: 10),
-      width: 260,
+      padding: EdgeInsets.only(left: 10, right: 10),
       decoration: new BoxDecoration(
           color: Color(0x22000000), borderRadius: BorderRadius.circular(20)),
       height: 32,
       child: new Stack(children: <Widget>[
         new Center(
             child: TextField(
-              maxLines: 1,
-              // autofocus: true,
-              textInputAction: TextInputAction.search,
-              onEditingComplete: () {
-                _doSearch(key: _searchController.text);
-              },
-              controller: _searchController,
-              decoration: new InputDecoration(
-                  hintText: '用空格隔开多个关键字',
-                  hintMaxLines: 1,
-                  // contentPadding: EdgeInsets.all(10),
-                  hintStyle: TextStyle(color: Color(0xBBFFFFFF), fontSize: 15),
-                  border: InputBorder.none,
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero),
-              style: new TextStyle(
-                  fontWeight: FontWeight.normal, color: Colors.white, fontSize: 15),
-            )),
+          maxLines: 1,
+          // autofocus: true,
+          textInputAction: TextInputAction.search,
+          onEditingComplete: () {
+            _doSearch(key: _searchController.text);
+          },
+          controller: _searchController,
+          decoration: new InputDecoration(
+              hintText: '用空格隔开多个关键字',
+              hintMaxLines: 1,
+              // contentPadding: EdgeInsets.all(10),
+              hintStyle: TextStyle(color: Color(0xBBFFFFFF), fontSize: 15),
+              border: InputBorder.none,
+              isDense: true,
+              contentPadding: EdgeInsets.zero),
+          style: new TextStyle(
+              fontWeight: FontWeight.normal, color: Colors.white, fontSize: 15),
+        )),
         Align(
           child: ValueListenableBuilder<bool>(
               valueListenable: _showClose,
