@@ -551,3 +551,60 @@ class UserCoinModel {
     return data;
   }
 }
+
+class CoinModel {
+  int coinCount;
+  int date;
+  String desc;
+  int id;
+  String reason;
+  int type;
+  int userId;
+  String userName;
+
+  CoinModel(
+      {this.coinCount,
+      this.date,
+      this.desc,
+      this.id,
+      this.reason,
+      this.type,
+      this.userId,
+      this.userName});
+
+  CoinModel.fromJson(Map<String, dynamic> json) {
+    coinCount = json['coinCount'];
+    date = json['date'];
+    desc = json['desc'];
+    id = json['id'];
+    reason = json['reason'];
+    type = json['type'];
+    userId = json['userId'];
+    userName = json['userName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['coinCount'] = this.coinCount;
+    data['date'] = this.date;
+    data['desc'] = this.desc;
+    data['id'] = this.id;
+    data['reason'] = this.reason;
+    data['type'] = this.type;
+    data['userId'] = this.userId;
+    data['userName'] = this.userName;
+    return data;
+  }
+}
+
+class CoinPageModel {
+  int pageCount;
+  int curPage;
+  List<CoinModel> list;
+
+  CoinPageModel.fromData(List<CoinModel> list, int pageCount, int curPage) {
+    this.list = list;
+    this.pageCount = pageCount;
+    this.curPage = curPage;
+  }
+}

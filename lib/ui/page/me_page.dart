@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frolo/blocs/application_bloc.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
+import 'package:frolo/blocs/coin_bloc.dart';
 import 'package:frolo/blocs/me_bloc.dart';
 import 'package:frolo/data/common/common.dart';
 import 'package:frolo/provider/user_info_provider.dart';
+import 'package:frolo/ui/page/CoinDetailPage.dart';
 import 'package:frolo/ui/page/login_page.dart';
 import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/utils/log_util.dart';
@@ -103,22 +105,34 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   new Expanded(
-                      child: new Center(
-                    child: new Column(
-                      children: <Widget>[
-                        new Selector(builder: (context, coinCount, child) {
-                          return new Text(
-                            coinCount.toString(),
-                            style: new TextStyle(color: Color(0xFF1B1B1B)),
-                          );
-                        }, selector:
-                            (BuildContext context, UserInfoProvider notifier) {
-                          return notifier.coinCount;
-                        }),
-                        Gaps.vGap5,
-                        Text('积分',
-                            style: new TextStyle(color: Color(0xFF7F7F7F))),
-                      ],
+                      child: new InkWell(
+                    onTap: () {
+                      Utils.isLogin()
+                          ? NavigatorUtil.pushPage(
+                              context,
+                              BlocProvider(
+                                  child: CoinDetailPage(
+                                      _userInfoProvider.coinCount),
+                                  bloc: new CoinBloc()))
+                          : NavigatorUtil.pushPage(context, LoginPage());
+                    },
+                    child: new Center(
+                      child: new Column(
+                        children: <Widget>[
+                          new Selector(builder: (context, coinCount, child) {
+                            return new Text(
+                              coinCount.toString(),
+                              style: new TextStyle(color: Color(0xFF1B1B1B)),
+                            );
+                          }, selector: (BuildContext context,
+                              UserInfoProvider notifier) {
+                            return notifier.coinCount;
+                          }),
+                          Gaps.vGap5,
+                          Text('积分',
+                              style: new TextStyle(color: Color(0xFF7F7F7F))),
+                        ],
+                      ),
                     ),
                   )),
                   new Expanded(

@@ -13,6 +13,7 @@ class WanAndroidApi {
 
   /// 体系数据 http://www.wanandroid.com/tree/json
   static const String TREE = "tree";
+
   /// 导航数据 https://www.wanandroid.com/navi/json
   static const String NAVI = "navi";
 
@@ -41,6 +42,7 @@ class WanAndroidApi {
   static const String user_logout = "user/logout"; //退出
 
   static const String lg_coin_userinfo = "lg/coin/userinfo"; //个人积分
+  static const String lg_coin_list = "lg/coin/list"; //个人积分列表
   static const String lg_collect_list = "lg/collect/list"; //收藏文章列表
   static const String lg_collect = "lg/collect"; //收藏站内文章
   static const String lg_uncollect_originid = "lg/uncollect_originId"; //取消收藏
