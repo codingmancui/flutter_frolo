@@ -15,7 +15,7 @@ class ApplicationBloc implements BlocBase {
   }
 
   @override
-  Future getData({String labelId, int page}) {
+  Future getData({int page}) {
     return null;
   }
 

@@ -136,7 +136,7 @@ class SearchBloc implements BlocBase {
   }
 
   @override
-  Future getData({String labelId, int page}) async {
+  Future getData({int page}) async {
     return _getTagDatas();
   }
 

@@ -8,7 +8,6 @@ import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-
 class ProjectListWidget extends StatefulWidget {
   ProjectListWidget({Key key, this.cid}) : super(key: key);
   final int cid;
@@ -67,11 +66,11 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
 
   void _onRefresh() async {
     // monitor network fetch
-    _tabListBloc.onRefresh(labelId: 'home', cid: cid);
+    _tabListBloc.onRefresh(cid: cid);
   }
 
   void _onLoadMore() async {
-    _tabListBloc.onLoadMore(labelId: 'home', cid: cid);
+    _tabListBloc.onLoadMore(cid: cid);
   }
 
   @override

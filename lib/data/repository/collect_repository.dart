@@ -5,30 +5,31 @@ import 'package:frolo/data/protocol/base_resp.dart';
 import 'package:frolo/data/protocol/models.dart';
 
 class CollectRepository {
-  Future<List<ArticleModel>> getCollectList(int page) async {
+  Future<ArticlePageModel> getCollectList(int page) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(
             Method.get,
             WanAndroidApi.getPath(
-                path: WanAndroidApi.lg_collect_list, page: page));
+                path: WanAndroidApi.LG_COLLECT_LIST, page: page));
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
     List<ArticleModel> list;
+    ComData comData;
     if (baseResp.data != null) {
-      ComData comData = ComData.fromJson(baseResp.data);
+      comData = ComData.fromJson(baseResp.data);
       list = comData.datas?.map((value) {
         ArticleModel model = ArticleModel.fromJson(value);
         model.collect = true;
         return model;
       })?.toList();
     }
-    return list;
+    return ArticlePageModel.fromData(list, comData.pageCount, comData.curPage);
   }
 
   Future<bool> collect(int id) async {
     BaseResp baseResp = await DioUtil().request(Method.post,
-        WanAndroidApi.getPath(path: WanAndroidApi.lg_collect, page: id));
+        WanAndroidApi.getPath(path: WanAndroidApi.LG_COLLECT, page: id));
     if (baseResp.code != Constant.status_success) {
       return Future.error(baseResp.msg);
     }
@@ -39,7 +40,7 @@ class CollectRepository {
     BaseResp baseResp = await DioUtil().request(
         Method.post,
         WanAndroidApi.getPath(
-            path: WanAndroidApi.lg_uncollect_originid, page: id));
+            path: WanAndroidApi.LG_UNCOLLECT_ORIGINID, page: id));
     if (baseResp.code != Constant.status_success) {
       return Future.error(baseResp.msg);
     }

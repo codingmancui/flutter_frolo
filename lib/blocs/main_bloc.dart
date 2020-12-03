@@ -42,7 +42,7 @@ class MainBloc implements BlocBase {
   var _dataWrapper = new List();
 
   @override
-  Future getData({String labelId, int page}) {
+  Future getData({int page}) {
     return null;
   }
 
@@ -53,7 +53,7 @@ class MainBloc implements BlocBase {
   }
 
   @override
-  Future onRefresh({String labelId, bool isReload}) {
+  Future onRefresh({bool isReload}) {
     return getAllData();
   }
 

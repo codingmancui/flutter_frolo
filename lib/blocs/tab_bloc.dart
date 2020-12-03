@@ -15,7 +15,7 @@ class TabBloc implements BlocBase {
   WanRepository wanRepository = new WanRepository();
 
   @override
-  Future getData({String labelId, int page}) {
+  Future getData({int page}) {
     return null;
   }
 

@@ -9,7 +9,7 @@ import 'package:sp_util/sp_util.dart';
 class UserRepository {
   Future<UserModel> login(LoginParam param) async {
     BaseRespR<Map<String, dynamic>> baseResp = await DioUtil()
-        .requestR<Map<String, dynamic>>(Method.post, WanAndroidApi.user_login,
+        .requestR<Map<String, dynamic>>(Method.post, WanAndroidApi.USER_LOGIN,
             data: param.toJson());
     if (baseResp.code != Constant.status_success) {
       return Future.error(baseResp.msg);
@@ -31,7 +31,7 @@ class UserRepository {
   Future<UserCoinModel> getCoinUserInfo() async {
     BaseRespR<Map<String, dynamic>> baseResp = await DioUtil()
         .requestR<Map<String, dynamic>>(Method.get,
-            WanAndroidApi.getPath(path: WanAndroidApi.lg_coin_userinfo));
+            WanAndroidApi.getPath(path: WanAndroidApi.LG_COIN_USERINFO));
     if (baseResp.code != Constant.status_success) {
       return Future.error(baseResp.msg);
     }
@@ -42,7 +42,7 @@ class UserRepository {
   Future<UserModel> register(RegisterParam req) async {
     BaseRespR<Map<String, dynamic>> baseResp = await DioUtil()
         .requestR<Map<String, dynamic>>(
-            Method.post, WanAndroidApi.user_register,
+            Method.post, WanAndroidApi.USER_REGISTER,
             data: req.toJson());
     if (baseResp.code != Constant.status_success) {
       return Future.error(baseResp.msg);

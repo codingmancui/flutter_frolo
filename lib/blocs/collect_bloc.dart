@@ -1,17 +1,18 @@
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/data/protocol/models.dart';
+import 'package:frolo/data/repository/collect_repository.dart';
 import 'package:frolo/data/repository/wan_repository.dart';
 import 'package:frolo/event/event.dart';
 import 'package:rxdart/subjects.dart';
 
-class CoinBloc extends BlocBase {
-  WanRepository _wanRepository = new WanRepository();
+class CollectBloc extends BlocBase {
+  CollectRepository _repository = new CollectRepository();
 
-  BehaviorSubject<List<CoinModel>> _behaviorSubject = new BehaviorSubject();
+  BehaviorSubject<List<ArticleModel>> _behaviorSubject = new BehaviorSubject();
 
-  Sink<List<CoinModel>> get coinSink => _behaviorSubject.sink;
+  Sink<List<ArticleModel>> get coinSink => _behaviorSubject.sink;
 
-  Stream<List<CoinModel>> get coinStream => _behaviorSubject.stream;
+  Stream<List<ArticleModel>> get coinStream => _behaviorSubject.stream;
 
   BehaviorSubject<StatusEvent> _event = BehaviorSubject<StatusEvent>();
 
@@ -19,8 +20,8 @@ class CoinBloc extends BlocBase {
 
   Stream<StatusEvent> get eventStream => _event.stream.asBroadcastStream();
 
-  List<CoinModel> dataList = new List();
-  int _page = 1;
+  List<ArticleModel> dataList = new List();
+  int _page = 0;
 
   @override
   void dispose() {
@@ -30,11 +31,11 @@ class CoinBloc extends BlocBase {
 
   @override
   Future getData({int page}) {
-    return getCoinList(1);
+    return getCollectList(0);
   }
 
-  Future getCoinList(int page) {
-    return _wanRepository.getCoinList(page: page).then((data) {
+  Future getCollectList(int page) {
+    return _repository.getCollectList(page).then((data) {
       dataList.addAll(data.list);
       coinSink.add(dataList);
       if (page == 1) {
@@ -56,7 +57,7 @@ class CoinBloc extends BlocBase {
   @override
   Future onLoadMore({String labelId}) {
     ++_page;
-    return getCoinList(_page);
+    return getCollectList(_page);
   }
 
   @override

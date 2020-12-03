@@ -28,19 +28,19 @@ class SystemDetailBloc implements BlocBase {
   List<ArticleModel> datas = new List();
 
   @override
-  Future getData({String labelId, int page, int cid}) {
+  Future getData({int page, int cid}) {
     return getArticleList(page, cid);
   }
 
   @override
-  Future onLoadMore({String labelId, int cid}) {
+  Future onLoadMore({int cid}) {
     _isRefresh = false;
     ++_page;
     return getArticleList(_page, cid);
   }
 
   @override
-  Future onRefresh({String labelId, int cid}) {
+  Future onRefresh({int cid}) {
     _page = 0;
     _isRefresh = true;
     return getArticleList(_page, cid);

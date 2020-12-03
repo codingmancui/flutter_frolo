@@ -37,15 +37,15 @@ class WanAndroidApi {
   /// 在某个公众号中搜索历史文章 http://wanandroid.com/wxarticle/list/405/1/json?k=Java
   static const String WXARTICLE_LIST = "wxarticle/list";
 
-  static const String user_register = "user/register"; //注册
-  static const String user_login = "user/login"; //登录
-  static const String user_logout = "user/logout"; //退出
+  static const String USER_REGISTER = "user/register"; //注册
+  static const String USER_LOGIN = "user/login"; //登录
+  static const String USER_LOGOUT = "user/logout"; //退出
 
-  static const String lg_coin_userinfo = "lg/coin/userinfo"; //个人积分
-  static const String lg_coin_list = "lg/coin/list"; //个人积分列表
-  static const String lg_collect_list = "lg/collect/list"; //收藏文章列表
-  static const String lg_collect = "lg/collect"; //收藏站内文章
-  static const String lg_uncollect_originid = "lg/uncollect_originId"; //取消收藏
+  static const String LG_COIN_USERINFO = "lg/coin/userinfo"; //个人积分
+  static const String LG_COIN_LIST = "lg/coin/list"; //个人积分列表
+  static const String LG_COLLECT_LIST = "lg/collect/list"; //收藏文章列表
+  static const String LG_COLLECT = "lg/collect"; //收藏站内文章
+  static const String LG_UNCOLLECT_ORIGINID = "lg/uncollect_originId"; //取消收藏
 
   static String getPath({String path: '', int page, String resType: 'json'}) {
     StringBuffer sb = new StringBuffer(path);

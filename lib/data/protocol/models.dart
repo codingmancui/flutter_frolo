@@ -263,12 +263,12 @@ class TreeModel {
   }
 }
 
-class DataPagingModel {
+class ArticlePageModel {
   int pageCount;
   int curPage;
   List<ArticleModel> list;
 
-  DataPagingModel.fromData(
+  ArticlePageModel.fromData(
       List<ArticleModel> list, int pageCount, int curPage) {
     this.list = list;
     this.pageCount = pageCount;

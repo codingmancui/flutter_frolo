@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:frolo/blocs/application_bloc.dart';
 import 'package:frolo/blocs/bloc_provider.dart';
 import 'package:frolo/blocs/coin_bloc.dart';
+import 'package:frolo/blocs/collect_bloc.dart';
 import 'package:frolo/blocs/me_bloc.dart';
 import 'package:frolo/data/common/common.dart';
 import 'package:frolo/provider/user_info_provider.dart';
-import 'package:frolo/ui/page/CoinDetailPage.dart';
+import 'package:frolo/ui/page/coin_detail_page.dart';
+import 'package:frolo/ui/page/collect_page.dart';
 import 'package:frolo/ui/page/login_page.dart';
 import 'package:frolo/ui/widgets/loading/pulse.dart';
 import 'package:frolo/utils/log_util.dart';
@@ -186,19 +188,30 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                   children: <Widget>[
                     new Expanded(
                         child: new Center(
-                      child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            Utils.getImgPath('ic_collect'),
-                            fit: BoxFit.fill,
-                          ),
-                          Gaps.getVGap(2),
-                          Text('收藏',
-                              style: new TextStyle(
-                                  color: Color(0xFF1B1B1B), fontSize: 12))
-                        ],
+                      child: new InkWell(
+                        onTap: () {
+                          Utils.isLogin()
+                              ? NavigatorUtil.pushPage(
+                                  context,
+                                  BlocProvider(
+                                      child: CollectPage(),
+                                      bloc: new CollectBloc()))
+                              : NavigatorUtil.pushPage(context, LoginPage());
+                        },
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              Utils.getImgPath('ic_collect'),
+                              fit: BoxFit.fill,
+                            ),
+                            Gaps.getVGap(2),
+                            Text('收藏',
+                                style: new TextStyle(
+                                    color: Color(0xFF1B1B1B), fontSize: 12))
+                          ],
+                        ),
                       ),
                     )),
                     new Expanded(

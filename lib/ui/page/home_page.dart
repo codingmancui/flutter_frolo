@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage>
 
   void _onRefresh() async {
     // monitor network fetch
-    _bloc.onRefresh(labelId: 'home', isReload: true);
+    _bloc.onRefresh(isReload: true);
   }
 
   void _onLoadMore() async {

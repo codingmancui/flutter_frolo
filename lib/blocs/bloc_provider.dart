@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 abstract class BlocBase {
-  Future getData({String labelId, int page});
+  Future getData({int page});
 
-  Future onRefresh({String labelId});
+  Future onRefresh();
 
-  Future onLoadMore({String labelId});
+  Future onLoadMore();
 
   void dispose();
 }

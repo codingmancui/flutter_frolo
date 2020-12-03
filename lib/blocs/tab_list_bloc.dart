@@ -33,23 +33,23 @@ class TabListBloc extends BlocBase {
   }
 
   @override
-  Future getData({String labelId, int cid, int page}) =>
-      getRepos(labelId, cid, page);
+  Future getData({int cid, int page}) =>
+      getRepos(cid, page);
 
   @override
-  Future onLoadMore({String labelId, int cid}) {
+  Future onLoadMore({int cid}) {
     int _page = 0;
     _page = ++_tabListPage;
-    return getData(labelId: labelId, cid: cid, page: _page);
+    return getData(cid: cid, page: _page);
   }
 
   @override
-  Future onRefresh({String labelId, int cid}) {
+  Future onRefresh({int cid}) {
     _tabListPage = 1;
-    return getData(labelId: labelId, cid: cid, page: _tabListPage);
+    return getData(cid: cid, page: _tabListPage);
   }
 
-  Future getRepos(String labelId, int cid, int page) async {
+  Future getRepos(int cid, int page) async {
     ComReq _comReq = new ComReq(cid);
     return wanRepository
         .getProjectList(page: page, data: _comReq.toJson())

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:frolo/data/common/global.dart';
 import 'package:frolo/ui/page/main_page.dart';
 import 'package:frolo/ui/page/splash_page.dart';
