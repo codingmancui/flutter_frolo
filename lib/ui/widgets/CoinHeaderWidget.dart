@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frolo/utils/log_util.dart';
+import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/utils.dart';
 
 class CoinHeaderWidget extends StatefulWidget {
@@ -20,7 +21,7 @@ class _CoinHeaderWidget extends State<CoinHeaderWidget>
   @override
   void initState() {
     _controller = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 1));
+        vsync: this, duration: new Duration(milliseconds: 500));
     _animation = new IntTween(begin: 0, end: widget.coins).animate(
         CurvedAnimation(parent: _controller, curve: Curves.easeInSine));
     _animation.addListener(() {
@@ -57,7 +58,11 @@ class _CoinHeaderWidget extends State<CoinHeaderWidget>
                 child: new Container(
                   margin: EdgeInsets.only(right: 20),
                   child: new InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        NavigatorUtil.pushWeb(context,
+                            title: '积分规则',
+                            url: 'https://www.wanandroid.com/blog/show/2653');
+                      },
                       child: Image.asset(
                         Utils.getImgPath('ic_rule'),
                         width: 18,
