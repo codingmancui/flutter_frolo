@@ -20,60 +20,60 @@ class WanRepository {
     return bannerList;
   }
 
-  Future<List<ArticleModel>> getTopList() async {
+  Future<List<Article>> getTopList() async {
     BaseResp<List> baseResp = await DioUtil().request<List>(
         Method.get, WanAndroidApi.getPath(path: WanAndroidApi.TOP_LISt));
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
 
     if (baseResp.data != null) {
       list = baseResp.data.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return list;
   }
 
-  Future<List<ArticleModel>> getArticleList({int page: 0, data}) async {
+  Future<List<Article>> getArticleList({int page: 0, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(
             Method.get,
             WanAndroidApi.getPath(
                 path: WanAndroidApi.ARTICLE_LIST, page: page));
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
     if (baseResp.data != null) {
       ComData comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return list;
   }
 
-  Future<List<ArticleModel>> getRecReposList({int page: 1, data}) async {
+  Future<List<Article>> getRecReposList({int page: 1, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(Method.get,
             WanAndroidApi.getPath(path: WanAndroidApi.PROJECT_LIST, page: page),
             data: data);
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
     if (baseResp.data != null) {
       ComData comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return list;
   }
 
-  Future<List<ArticleModel>> getWxArticleList(
+  Future<List<Article>> getWxArticleList(
       {int id, int page: 1, data}) async {
     BaseResp<Map<String, dynamic>> baseResp = await DioUtil()
         .request<Map<String, dynamic>>(
@@ -81,14 +81,14 @@ class WanRepository {
             WanAndroidApi.getPath(
                 path: WanAndroidApi.WXARTICLE_LIST + '/$id', page: page),
             data: data);
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
     if (baseResp.data != null) {
       ComData comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return list;
@@ -114,7 +114,7 @@ class WanRepository {
         .request<Map<String, dynamic>>(Method.get,
             WanAndroidApi.getPath(path: WanAndroidApi.PROJECT_LIST, page: page),
             data: data);
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
@@ -122,7 +122,7 @@ class WanRepository {
     if (baseResp.data != null) {
       comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return ArticlePageModel.fromData(list, comData.pageCount, comData.curPage);
@@ -148,7 +148,7 @@ class WanRepository {
         .request<Map<String, dynamic>>(Method.post,
             WanAndroidApi.getPath(path: WanAndroidApi.SEARCH_LIST, page: page),
             data: data);
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
@@ -156,7 +156,7 @@ class WanRepository {
     if (baseResp.data != null) {
       comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return ArticlePageModel.fromData(list, comData.pageCount, comData.curPage);
@@ -197,7 +197,7 @@ class WanRepository {
         .request<Map<String, dynamic>>(Method.get,
             WanAndroidApi.getPath(path: WanAndroidApi.ARTICLE_LIST, page: page),
             data: data);
-    List<ArticleModel> list;
+    List<Article> list;
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
@@ -205,7 +205,7 @@ class WanRepository {
     if (baseResp.data != null) {
       comData = ComData.fromJson(baseResp.data);
       list = comData.datas.map((value) {
-        return ArticleModel.fromJson(value);
+        return Article.fromJson(value);
       }).toList();
     }
     return ArticlePageModel.fromData(list, comData.pageCount, comData.curPage);

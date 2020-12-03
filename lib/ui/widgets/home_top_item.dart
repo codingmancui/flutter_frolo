@@ -12,7 +12,7 @@ import 'package:frolo/utils/utils.dart';
 
 class HomeTopItem extends StatelessWidget {
   final int position;
-  final ArticleModel model;
+  final Article model;
 
   HomeTopItem(this.position, this.model);
 
@@ -117,7 +117,7 @@ class HomeTopItem extends StatelessWidget {
     );
   }
 
-  Container buildTopTagContainer(ArticleModel model) {
+  Container buildTopTagContainer(Article model) {
     if (model.isHotTag) {
       return new Container(
         width: 0,
@@ -138,7 +138,7 @@ class HomeTopItem extends StatelessWidget {
     );
   }
 
-  Container buildTag(int index, ArticleModel model) {
+  Container buildTag(int index, Article model) {
     return model.tags.isNotEmpty
         ? new Container(
             margin: EdgeInsets.only(left: 10),

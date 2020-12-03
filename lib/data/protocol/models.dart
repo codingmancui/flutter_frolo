@@ -1,3 +1,5 @@
+import 'package:floor/floor.dart';
+
 class BannerModel {
   String title;
   int id;
@@ -29,7 +31,10 @@ class BannerModel {
   }
 }
 
-class ArticleModel {
+@Entity(tableName:'history')
+class Article {
+  @primaryKey
+  int id;
   String apkLink;
   int audit;
   String author;
@@ -42,7 +47,6 @@ class ArticleModel {
   String descMd;
   String envelopePic;
   bool fresh;
-  int id;
   String link;
   String niceDate;
   String niceShareDate;
@@ -56,6 +60,7 @@ class ArticleModel {
   String shareUser;
   int superChapterId;
   String superChapterName;
+  @ignore
   List<Tags> tags;
   String title;
   int type;
@@ -65,11 +70,11 @@ class ArticleModel {
   int itemType = 0;
   bool isHotTag = false;
 
-  ArticleModel.itemType(this.itemType);
+  Article.itemType(this.itemType);
 
-  ArticleModel.isHotTag(this.isHotTag);
+  Article.isHotTag(this.isHotTag);
 
-  ArticleModel(
+  Article(
       {this.apkLink,
       this.audit,
       this.author,
@@ -103,7 +108,7 @@ class ArticleModel {
       this.visible,
       this.zan});
 
-  ArticleModel.fromJson(Map<String, dynamic> json) {
+  Article.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
     audit = json['audit'];
     author = json['author'];
@@ -266,10 +271,10 @@ class TreeModel {
 class ArticlePageModel {
   int pageCount;
   int curPage;
-  List<ArticleModel> list;
+  List<Article> list;
 
   ArticlePageModel.fromData(
-      List<ArticleModel> list, int pageCount, int curPage) {
+      List<Article> list, int pageCount, int curPage) {
     this.list = list;
     this.pageCount = pageCount;
     this.curPage = curPage;
@@ -398,7 +403,7 @@ class Children {
 }
 
 class NaviModel {
-  List<ArticleModel> articles;
+  List<Article> articles;
   int cid;
   String name;
 
@@ -406,9 +411,9 @@ class NaviModel {
 
   NaviModel.fromJson(Map<String, dynamic> json) {
     if (json['articles'] != null) {
-      articles = new List<ArticleModel>();
+      articles = new List<Article>();
       json['articles'].forEach((v) {
-        articles.add(new ArticleModel.fromJson(v));
+        articles.add(new Article.fromJson(v));
       });
     }
     cid = json['cid'];

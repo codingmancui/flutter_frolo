@@ -59,7 +59,7 @@ class _SystemTabWidgetState extends State<SystemDetailTabWidget>
     return new StreamBuilder(
         stream: _systemDetailBloc.systemDetailStream,
         builder: (BuildContext context,
-            AsyncSnapshot<List<ArticleModel>> asyncSnapshot) {
+            AsyncSnapshot<List<Article>> asyncSnapshot) {
           return buildSmartRefresher(asyncSnapshot);
         });
   }
@@ -72,7 +72,7 @@ class _SystemTabWidgetState extends State<SystemDetailTabWidget>
     _systemDetailBloc.onLoadMore(cid: widget.cid);
   }
 
-  Widget buildSmartRefresher(AsyncSnapshot<List<ArticleModel>> asyncSnapshot) {
+  Widget buildSmartRefresher(AsyncSnapshot<List<Article>> asyncSnapshot) {
     int loadingStatus =
         Utils.getLoadStatus(asyncSnapshot.hasError, asyncSnapshot.data);
     return new RefreshScaffold(

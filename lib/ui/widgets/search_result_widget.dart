@@ -64,13 +64,13 @@ class SearchResultWidgetState extends State<SearchResultWidget> {
       child: new StreamBuilder(
           stream: widget._searchBloc.searchStream,
           builder: (BuildContext context,
-              AsyncSnapshot<List<ArticleModel>> asyncSnapshot) {
+              AsyncSnapshot<List<Article>> asyncSnapshot) {
             return _buildSmartRefresher(asyncSnapshot);
           }),
     );
   }
 
-  Widget _buildSmartRefresher(AsyncSnapshot<List<ArticleModel>> snapshot) {
+  Widget _buildSmartRefresher(AsyncSnapshot<List<Article>> snapshot) {
     int status = Utils.getLoadStatus(snapshot.hasError, snapshot.data);
     LogUtil.v("_buildSmartRefresher status $status");
     return new RefreshScaffold(

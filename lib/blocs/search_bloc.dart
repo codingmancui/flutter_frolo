@@ -33,16 +33,16 @@ class SearchBloc implements BlocBase {
 
   Stream<List<String>> get localTagsStream => _localTagsSubject.stream;
 
-  BehaviorSubject<List<ArticleModel>> _searchSubject = BehaviorSubject();
+  BehaviorSubject<List<Article>> _searchSubject = BehaviorSubject();
 
-  Sink<List<ArticleModel>> get searchSink => _searchSubject.sink;
+  Sink<List<Article>> get searchSink => _searchSubject.sink;
 
-  Stream<List<ArticleModel>> get searchStream => _searchSubject.stream;
+  Stream<List<Article>> get searchStream => _searchSubject.stream;
 
   List<String> _localTags;
   int _page = 0;
   String _key = '';
-  List<ArticleModel> _listData = new List();
+  List<Article> _listData = new List();
   FetchSuccess _callback;
 
   void setCallback(FetchSuccess callback) {

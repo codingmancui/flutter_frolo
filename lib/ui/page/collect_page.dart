@@ -66,7 +66,7 @@ class _CollectPageState extends State<CollectPage> {
       body: new StreamBuilder(
           stream: _collectBloc.coinStream,
           builder: (BuildContext context,
-              AsyncSnapshot<List<ArticleModel>> snapshot) {
+              AsyncSnapshot<List<Article>> snapshot) {
             int status = Utils.getLoadStatus(snapshot.hasError, snapshot.data);
             return new RefreshScaffold(
                 loadingStatus: status,
@@ -90,14 +90,14 @@ class _CollectPageState extends State<CollectPage> {
     );
   }
 
-  Container buildItem(ArticleModel model) {
+  Container buildItem(Article model) {
     return new Container(
       padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
       child: buildItemType(model),
     );
   }
 
-  Widget buildItemType(ArticleModel model) {
+  Widget buildItemType(Article model) {
     if (ObjectUtil.isEmptyString(model.envelopePic)) {
       return new Column(
         crossAxisAlignment: CrossAxisAlignment.start,

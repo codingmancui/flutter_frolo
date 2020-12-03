@@ -79,7 +79,7 @@ class _ProjectListWidgetState extends State<ProjectListWidget>
     return new StreamBuilder(
         stream: _tabListBloc.tabListStream,
         builder:
-            (BuildContext context, AsyncSnapshot<List<ArticleModel>> snapshot) {
+            (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
           int status = Utils.getLoadStatus(snapshot.hasError, snapshot.data);
           return new RefreshScaffold(
               loadingStatus: status,

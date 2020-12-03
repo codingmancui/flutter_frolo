@@ -8,11 +8,11 @@ import 'package:rxdart/subjects.dart';
 class CollectBloc extends BlocBase {
   CollectRepository _repository = new CollectRepository();
 
-  BehaviorSubject<List<ArticleModel>> _behaviorSubject = new BehaviorSubject();
+  BehaviorSubject<List<Article>> _behaviorSubject = new BehaviorSubject();
 
-  Sink<List<ArticleModel>> get coinSink => _behaviorSubject.sink;
+  Sink<List<Article>> get coinSink => _behaviorSubject.sink;
 
-  Stream<List<ArticleModel>> get coinStream => _behaviorSubject.stream;
+  Stream<List<Article>> get coinStream => _behaviorSubject.stream;
 
   BehaviorSubject<StatusEvent> _event = BehaviorSubject<StatusEvent>();
 
@@ -20,7 +20,7 @@ class CollectBloc extends BlocBase {
 
   Stream<StatusEvent> get eventStream => _event.stream.asBroadcastStream();
 
-  List<ArticleModel> dataList = new List();
+  List<Article> dataList = new List();
   int _page = 0;
 
   @override

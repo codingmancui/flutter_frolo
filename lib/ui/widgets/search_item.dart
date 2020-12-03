@@ -8,7 +8,7 @@ import 'package:frolo/utils/ui_gaps.dart';
 
 class SearchItem extends StatelessWidget {
   final int position;
-  final ArticleModel model;
+  final Article model;
 
   const SearchItem(this.position, this.model);
 

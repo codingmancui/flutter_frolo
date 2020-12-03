@@ -5,7 +5,7 @@ import 'package:frolo/utils/object_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
 
 class SystemDetailItem extends StatelessWidget {
-  final ArticleModel model;
+  final Article model;
 
   final String modelName;
 

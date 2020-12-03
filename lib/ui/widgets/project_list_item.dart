@@ -11,7 +11,7 @@ import 'loading/pulse.dart';
 
 class ProjectListItem extends StatelessWidget {
   final int position;
-  final ArticleModel model;
+  final Article model;
 
   const ProjectListItem(this.position, this.model);
 

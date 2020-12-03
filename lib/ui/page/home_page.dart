@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage>
       if (data is List) {
         return buildBanner(context, data as List<BannerModel>);
       } else {
-        var item = data as ArticleModel;
+        var item = data as Article;
         switch (item.itemType) {
           case 0:
             {

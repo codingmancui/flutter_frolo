@@ -48,10 +48,15 @@ dependencies:
   sp_util: ^1.0.1
   # https://pub.dev/packages/provider
   provider: ^4.3.2+2
+  # https://pub.flutter-io.cn/packages/floor
+  floor: ^0.17.0
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  floor_generator: ^0.17.0
+  build_runner: ^1.10.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

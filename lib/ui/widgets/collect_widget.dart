@@ -6,7 +6,7 @@ import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/utils.dart';
 
 class CollectWidget extends StatefulWidget {
-  final ArticleModel model;
+  final Article model;
 
   const CollectWidget(this.model);
 
@@ -16,7 +16,7 @@ class CollectWidget extends StatefulWidget {
 
 class CollectState extends State<CollectWidget> {
   ValueNotifier _valueNotifier = new ValueNotifier(false);
-  ArticleModel _model;
+  Article _model;
 
   @override
   Widget build(BuildContext context) {

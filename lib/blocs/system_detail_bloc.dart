@@ -9,12 +9,12 @@ import 'bloc_provider.dart';
 class SystemDetailBloc implements BlocBase {
   WanRepository wanRepository = new WanRepository();
 
-  BehaviorSubject<List<ArticleModel>> _systemDetail =
-      BehaviorSubject<List<ArticleModel>>();
+  BehaviorSubject<List<Article>> _systemDetail =
+      BehaviorSubject<List<Article>>();
 
-  Sink<List<ArticleModel>> get _systemDetailSink => _systemDetail.sink;
+  Sink<List<Article>> get _systemDetailSink => _systemDetail.sink;
 
-  Stream<List<ArticleModel>> get systemDetailStream => _systemDetail.stream;
+  Stream<List<Article>> get systemDetailStream => _systemDetail.stream;
 
   BehaviorSubject<StatusEvent> _systemEvent = BehaviorSubject();
 
@@ -25,7 +25,7 @@ class SystemDetailBloc implements BlocBase {
 
   int _page = 0;
   bool _isRefresh = false;
-  List<ArticleModel> datas = new List();
+  List<Article> datas = new List();
 
   @override
   Future getData({int page, int cid}) {

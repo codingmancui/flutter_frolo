@@ -17,7 +17,7 @@ class ReposItem extends StatelessWidget {
     this.isHome,
   }) : super(key: key);
   final String labelId;
-  final ArticleModel model;
+  final Article model;
   final bool isHome;
 
   @override

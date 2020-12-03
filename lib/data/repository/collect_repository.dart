@@ -14,12 +14,12 @@ class CollectRepository {
     if (baseResp.code != Constant.status_success) {
       return new Future.error(baseResp.msg);
     }
-    List<ArticleModel> list;
+    List<Article> list;
     ComData comData;
     if (baseResp.data != null) {
       comData = ComData.fromJson(baseResp.data);
       list = comData.datas?.map((value) {
-        ArticleModel model = ArticleModel.fromJson(value);
+        Article model = Article.fromJson(value);
         model.collect = true;
         return model;
       })?.toList();

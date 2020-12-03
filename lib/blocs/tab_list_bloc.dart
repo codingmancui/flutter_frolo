@@ -14,14 +14,14 @@ class TabListBloc extends BlocBase {
 
   Stream<StatusEvent> get eventStream => _event.stream.asBroadcastStream();
 
-  BehaviorSubject<List<ArticleModel>> _tabList =
-      BehaviorSubject<List<ArticleModel>>();
+  BehaviorSubject<List<Article>> _tabList =
+      BehaviorSubject<List<Article>>();
 
-  Sink<List<ArticleModel>> get _tabListSink => _tabList.sink;
+  Sink<List<Article>> get _tabListSink => _tabList.sink;
 
-  Stream<List<ArticleModel>> get tabListStream => _tabList.stream;
+  Stream<List<Article>> get tabListStream => _tabList.stream;
 
-  List<ArticleModel> tabList;
+  List<Article> tabList;
   int _tabListPage = 1;
 
   WanRepository wanRepository = new WanRepository();
@@ -62,7 +62,7 @@ class TabListBloc extends BlocBase {
       LogUtil.e(
           'TabListWidget is getRepos curPage: ${data.curPage}   pageCount: ${data.pageCount}',
           tag: 'TabListBloc');
-      _tabListSink.add(UnmodifiableListView<ArticleModel>(tabList));
+      _tabListSink.add(UnmodifiableListView<Article>(tabList));
       if (page == 1) {
         eventSink.add(
             new StatusEvent(noMore: data.curPage == data.pageCount, status: 0));
