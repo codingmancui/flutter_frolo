@@ -46,6 +46,7 @@ class _CoinDetailPageState extends State<CoinDetailPage> {
           style: TextStyle(
               fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
         ),
+
       ),
       body: new Column(
         mainAxisSize: MainAxisSize.max,
