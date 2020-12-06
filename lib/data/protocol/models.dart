@@ -60,14 +60,15 @@ class Article {
   String shareUser;
   int superChapterId;
   String superChapterName;
-  @ignore
   List<Tags> tags;
   String title;
   int type;
   int userId;
   int visible;
   int zan;
+  @ignore
   int itemType = 0;
+  @ignore
   bool isHotTag = false;
 
   Article.itemType(this.itemType);

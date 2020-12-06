@@ -1,13 +1,18 @@
-class DatabaseSingleton{
+import 'database.dart';
 
-  DatabaseSingleton._privateConstructor(){
-    // await $FloorAppDatabase.databaseBuilder('wan_android_database.db').build();
+class DatabaseSingleton {
+  Future<WanAndroidDatabase> database;
+
+  DatabaseSingleton._privateConstructor() {
+    database = $FloorWanAndroidDatabase
+        .databaseBuilder('wan_android_database.db')
+        .build();
   }
 
-  static final DatabaseSingleton _instance = DatabaseSingleton._privateConstructor();
+  static final DatabaseSingleton instance =
+      DatabaseSingleton._privateConstructor();
 
-  factory DatabaseSingleton(){
-    return _instance;
+  factory DatabaseSingleton() {
+    return instance;
   }
-
 }
