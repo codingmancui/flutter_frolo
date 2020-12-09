@@ -1,12 +1,15 @@
 import 'database.dart';
 
 class DatabaseSingleton {
-  Future<WanAndroidDatabase> database;
+  WanAndroidDatabase database;
 
   DatabaseSingleton._privateConstructor() {
-    database = $FloorWanAndroidDatabase
+    var db = $FloorWanAndroidDatabase
         .databaseBuilder('wan_android_database.db')
         .build();
+    db.then((value) {
+      this.database = value;
+    });
   }
 
   static final DatabaseSingleton instance =

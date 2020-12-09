@@ -15,7 +15,8 @@ class SystemDetailItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new InkWell(
       onTap: () {
-        NavigatorUtil.pushWeb(context, title: model.title, url: model.link);
+        NavigatorUtil.pushWeb(context,
+            title: model.title, url: model.link, article: model);
       },
       child: new Container(
         padding: EdgeInsets.only(left: 20, top: 12, right: 20, bottom: 12),

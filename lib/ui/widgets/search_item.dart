@@ -19,7 +19,7 @@ class SearchItem extends StatelessWidget {
     return new InkWell(
       onTap: () {
         NavigatorUtil.pushWeb(context,
-            title: model.title, url: model.link, isHome: true);
+            title: model.title, url: model.link, article: model);
       },
       child: new Container(
         decoration: new BoxDecoration(

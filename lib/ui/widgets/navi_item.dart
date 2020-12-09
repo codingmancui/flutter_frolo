@@ -35,7 +35,8 @@ class NaviItem extends StatelessWidget {
     return model.articles.map((e) {
       return new InkWell(
         onTap: () {
-          NavigatorUtil.pushWeb(context, title: e.title, url: e.link);
+          NavigatorUtil.pushWeb(context,
+              title: e.title, url: e.link, article: e);
         },
         borderRadius: new BorderRadius.circular(12.0),
         child: new Container(

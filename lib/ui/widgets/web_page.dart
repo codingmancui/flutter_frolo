@@ -5,8 +5,8 @@ import 'dart:io';
 
 import 'loading/square_circle.dart';
 
-class WebScaffold extends StatefulWidget {
-  const WebScaffold({
+class WebPage extends StatefulWidget {
+  const WebPage({
     Key key,
     this.title,
     this.titleId,
@@ -19,11 +19,11 @@ class WebScaffold extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new WebScaffoldState();
+    return new WebPageState();
   }
 }
 
-class WebScaffoldState extends State<WebScaffold> {
+class WebPageState extends State<WebPage> {
   ValueNotifier<bool> _loading = new ValueNotifier(true);
 
   @override
