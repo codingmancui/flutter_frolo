@@ -31,7 +31,7 @@ class BannerModel {
   }
 }
 
-@Entity(tableName:'history')
+@Entity(tableName: 'history')
 class Article {
   @primaryKey
   int id;
@@ -70,6 +70,7 @@ class Article {
   int itemType = 0;
   @ignore
   bool isHotTag = false;
+  int lastTime = 0;
 
   Article.itemType(this.itemType);
 
@@ -107,7 +108,8 @@ class Article {
       this.type,
       this.userId,
       this.visible,
-      this.zan});
+      this.zan,
+      this.lastTime});
 
   Article.fromJson(Map<String, dynamic> json) {
     apkLink = json['apkLink'];
@@ -274,8 +276,7 @@ class ArticlePageModel {
   int curPage;
   List<Article> list;
 
-  ArticlePageModel.fromData(
-      List<Article> list, int pageCount, int curPage) {
+  ArticlePageModel.fromData(List<Article> list, int pageCount, int curPage) {
     this.list = list;
     this.pageCount = pageCount;
     this.curPage = curPage;

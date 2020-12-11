@@ -10,8 +10,10 @@ import 'package:frolo/data/common/common.dart';
 import 'package:frolo/provider/user_info_provider.dart';
 import 'package:frolo/ui/page/coin_detail_page.dart';
 import 'package:frolo/ui/page/collect_page.dart';
+import 'package:frolo/ui/page/history_page.dart';
 import 'package:frolo/ui/page/login_page.dart';
 import 'package:frolo/ui/widgets/loading/pulse.dart';
+import 'package:frolo/ui/widgets/web_page.dart';
 import 'package:frolo/utils/log_util.dart';
 import 'package:frolo/utils/navigator_util.dart';
 import 'package:frolo/utils/ui_gaps.dart';
@@ -216,19 +218,24 @@ class _MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                     )),
                     new Expanded(
                         child: new Center(
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            Utils.getImgPath('ic_history'),
-                            fit: BoxFit.fill,
-                          ),
-                          Gaps.getVGap(2),
-                          Text('历史',
-                              style: new TextStyle(
-                                  color: Color(0xFF1B1B1B), fontSize: 12))
-                        ],
+                      child: new InkWell(
+                        onTap: () {
+                          NavigatorUtil.pushPage(context, new HistoryPage());
+                        },
+                        child: new Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              Utils.getImgPath('ic_history'),
+                              fit: BoxFit.fill,
+                            ),
+                            Gaps.getVGap(2),
+                            Text('历史',
+                                style: new TextStyle(
+                                    color: Color(0xFF1B1B1B), fontSize: 12))
+                          ],
+                        ),
                       ),
                     )),
                     new Expanded(

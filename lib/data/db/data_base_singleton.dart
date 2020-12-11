@@ -1,3 +1,4 @@
+import 'article_dao.dart';
 import 'database.dart';
 
 class DatabaseSingleton {
@@ -11,6 +12,8 @@ class DatabaseSingleton {
       this.database = value;
     });
   }
+
+  ArticleDao getArticleDao() => database.articleDao;
 
   static final DatabaseSingleton instance =
       DatabaseSingleton._privateConstructor();

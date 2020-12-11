@@ -21,6 +21,7 @@ class NavigatorUtil {
   static void pushWeb(BuildContext context,
       {String title, String titleId, String url, Article article}) {
     if (ObjectUtil.isNotEmpty(article)) {
+      article.lastTime = new DateTime.now().millisecondsSinceEpoch;
       DatabaseSingleton.instance.database.articleDao.insertArticle(article);
     }
     if (context == null || ObjectUtil.isEmpty(url)) return;

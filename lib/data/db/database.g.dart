@@ -80,7 +80,7 @@ class _$WanAndroidDatabase extends WanAndroidDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `history` (`id` INTEGER, `apkLink` TEXT, `audit` INTEGER, `author` TEXT, `canEdit` INTEGER, `chapterId` INTEGER, `chapterName` TEXT, `collect` INTEGER, `courseId` INTEGER, `desc` TEXT, `descMd` TEXT, `envelopePic` TEXT, `fresh` INTEGER, `link` TEXT, `niceDate` TEXT, `niceShareDate` TEXT, `origin` TEXT, `prefix` TEXT, `projectLink` TEXT, `publishTime` INTEGER, `realSuperChapterId` INTEGER, `selfVisible` INTEGER, `shareDate` INTEGER, `shareUser` TEXT, `superChapterId` INTEGER, `superChapterName` TEXT, `tags` TEXT, `title` TEXT, `type` INTEGER, `userId` INTEGER, `visible` INTEGER, `zan` INTEGER, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `history` (`id` INTEGER, `apkLink` TEXT, `audit` INTEGER, `author` TEXT, `canEdit` INTEGER, `chapterId` INTEGER, `chapterName` TEXT, `collect` INTEGER, `courseId` INTEGER, `desc` TEXT, `descMd` TEXT, `envelopePic` TEXT, `fresh` INTEGER, `link` TEXT, `niceDate` TEXT, `niceShareDate` TEXT, `origin` TEXT, `prefix` TEXT, `projectLink` TEXT, `publishTime` INTEGER, `realSuperChapterId` INTEGER, `selfVisible` INTEGER, `shareDate` INTEGER, `shareUser` TEXT, `superChapterId` INTEGER, `superChapterName` TEXT, `tags` TEXT, `title` TEXT, `type` INTEGER, `userId` INTEGER, `visible` INTEGER, `zan` INTEGER, `lastTime` INTEGER, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -134,7 +134,8 @@ class _$ArticleDao extends ArticleDao {
                   'type': item.type,
                   'userId': item.userId,
                   'visible': item.visible,
-                  'zan': item.zan
+                  'zan': item.zan,
+                  'lastTime': item.lastTime,
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -147,7 +148,7 @@ class _$ArticleDao extends ArticleDao {
 
   @override
   Future<List<Article>> findAllArticles() async {
-    return _queryAdapter.queryList('SELECT * FROM history',
+    return _queryAdapter.queryList('SELECT * FROM history order by lastTime desc limit 50',
         mapper: (Map<String, dynamic> row) => Article(
               apkLink: row['apkLink'] as String,
               audit: row['audit'] as int,
@@ -181,6 +182,7 @@ class _$ArticleDao extends ArticleDao {
               userId: row['userId'] as int,
               visible: row['visible'] as int,
               zan: row['zan'] as int,
+              lastTime: row['lastTime'] as int,
             ));
   }
 
