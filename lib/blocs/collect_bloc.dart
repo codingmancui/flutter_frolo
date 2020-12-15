@@ -10,9 +10,9 @@ class CollectBloc extends BlocBase {
 
   BehaviorSubject<List<Article>> _behaviorSubject = new BehaviorSubject();
 
-  Sink<List<Article>> get coinSink => _behaviorSubject.sink;
+  Sink<List<Article>> get collectSink => _behaviorSubject.sink;
 
-  Stream<List<Article>> get coinStream => _behaviorSubject.stream;
+  Stream<List<Article>> get collectStream => _behaviorSubject.stream;
 
   BehaviorSubject<StatusEvent> _event = BehaviorSubject<StatusEvent>();
 
@@ -37,7 +37,7 @@ class CollectBloc extends BlocBase {
   Future getCollectList(int page) {
     return _repository.getCollectList(page).then((data) {
       dataList.addAll(data.list);
-      coinSink.add(dataList);
+      collectSink.add(dataList);
       if (page == 1) {
         eventSink.add(
             new StatusEvent(noMore: data.curPage == data.pageCount, status: 0));

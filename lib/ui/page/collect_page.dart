@@ -64,7 +64,7 @@ class _CollectPageState extends State<CollectPage> {
         ),
       ),
       body: new StreamBuilder(
-          stream: _collectBloc.coinStream,
+          stream: _collectBloc.collectStream,
           builder: (BuildContext context,
               AsyncSnapshot<List<Article>> snapshot) {
             int status = Utils.getLoadStatus(snapshot.hasError, snapshot.data);
