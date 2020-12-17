@@ -52,11 +52,11 @@ class _MainPageState extends State<MainPage> {
           itemBuilder: (context, index) => _bottomNavPages[index]),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('主页')),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: '主页'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.my_library_books), title: Text('项目')),
-          BottomNavigationBarItem(icon: Icon(Icons.reorder), title: Text('体系')),
-          BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('我')),
+              icon: Icon(Icons.my_library_books), label: '项目'),
+          BottomNavigationBarItem(icon: Icon(Icons.reorder), label: '体系'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '我'),
         ],
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
